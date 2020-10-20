@@ -1,6 +1,6 @@
-import { SegmentType } from "@/types/hl7/enums/hl7Enums";
-import Hl7Segment from "@/types/hl7/segmentTypes/hl7Segment";
-import FieldDefinition from "@/types/hl7/fieldDefintions/fieldDefinition";
+import { SegmentType } from "@/enums/hl7Enums";
+import Hl7Segment from "@/segmentTypes/hl7Segment";
+import FieldDefinition from "@/fieldDefintions/fieldDefinition";
 
 export default class PV1_Segment extends Hl7Segment {
   public type: SegmentType = SegmentType.PV1;
