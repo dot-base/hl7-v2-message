@@ -1,5 +1,5 @@
-import Hl7Field from "@/types/hl7/fieldDefintions/hl7Field";
-import FieldDefinition from "@/types/hl7/fieldDefintions/fieldDefinition";
+import Hl7Field from "@/fieldDefintions/hl7Field";
+import FieldDefinition from "@/fieldDefintions/fieldDefinition";
 
 /**
  * MSH Field Defintions

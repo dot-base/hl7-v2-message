@@ -1,5 +1,5 @@
-import { SegmentType } from "@/types/hl7/enums/hl7Enums";
-import FieldDefinition from "@/types/hl7/fieldDefintions/fieldDefinition";
+import { SegmentType } from "@/enums/hl7Enums";
+import FieldDefinition from "@/fieldDefintions/fieldDefinition";
 
 export default abstract class Hl7Segment {
   public abstract type: SegmentType;
