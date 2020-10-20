@@ -1,0 +1,61 @@
+{
+  "name": "hl7-v2.x-message",
+  "description": "typescript based library to parse HL7 v2.x message strings into typed objects",
+  "version": "0.1.0",
+  "private": true,
+  "main": "build/index.js",
+  "homepage": "https://github.com/dot-base/hl7-v2-message",
+  "keywords": [
+    "Hl7",
+    "Health",
+    "Level",
+    "Seven",
+    "FHIR"
+  ],
+  "scripts": {
+    "start": "nodemon --watch 'src/**/*' -e ts --exec 'npm run watch'",
+    "watch": "npm run lint && npm run prettier && npm run development",
+    "lint": "eslint 'src/**' --ext .ts --fix",
+    "lint-without-fix": "eslint 'src/**' --ext .ts",
+    "prettier": "prettier --write 'src/**/*'",
+    "development": "NODE_ENV=development node -r tsconfig-paths/register -r ts-node/register src/index.ts",
+    "build": "tsc",
+    "production": "node -r tsconfig-paths/register build/index.js"
+  },
+  "dependencies": {
+    "health-level-seven-parser": "^1.2.2",
+    "hl7-dictionary": "^1.0.1",
+    "tsconfig-paths": "^3.9.0",
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "prettier",
+      "prettier/@typescript-eslint"
+    ],
+    "env": {
+      "es6": true,
+      "node": true
+    }
+  }
+}
