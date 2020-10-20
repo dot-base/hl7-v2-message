@@ -1,9 +1,9 @@
-import ORU_Message from "@/types/hl7/messageTypes/oruMessage";
-import Hl7Segment, { Raw_Segment } from "@/types/hl7/segmentTypes/hl7Segment";
-import { SegmentType, Hl7MessageType } from "@/types/hl7/enums/hl7Enums";
-import Hl7Message from "@/types/hl7/messageTypes/hl7Message";
-import Hl7Field from "@/types/hl7/fieldDefintions/hl7Field";
-import FieldDefinition from "@/types/hl7/fieldDefintions/fieldDefinition";
+import ORU_Message from "@/messageTypes/oruMessage";
+import Hl7Segment, { Raw_Segment } from "@/segmentTypes/hl7Segment";
+import { SegmentType, Hl7MessageType } from "@/enums/hl7Enums";
+import Hl7Message from "@/messageTypes/hl7Message";
+import Hl7Field from "@/fieldDefintions/hl7Field";
+import FieldDefinition from "@/fieldDefintions/fieldDefinition";
 
 export default class Hl7Parser {
   public static buildMessage(rawMessage: string): Hl7Message {
@@ -12,8 +12,12 @@ export default class Hl7Parser {
     return Hl7Parser.buildByType(rawSegments, messageType);
   }
 
-  public static buildByType(rawSegments: Raw_Segment[], messageType: Hl7MessageType): Hl7Message {
-    if (messageType === "ORU") return Hl7Parser.initSegments(new ORU_Message(), rawSegments);
+  public static buildByType(
+    rawSegments: Raw_Segment[],
+    messageType: Hl7MessageType
+  ): Hl7Message {
+    if (messageType === "ORU")
+      return Hl7Parser.initSegments(new ORU_Message(), rawSegments);
     throw "Unknown or invalid HL7 message type.";
   }
 
@@ -34,7 +38,9 @@ export default class Hl7Parser {
   }
 
   private static getSegmentType(segmentType: string): SegmentType {
-    const validType = Object.values(SegmentType).find((type) => type === segmentType);
+    const validType = Object.values(SegmentType).find(
+      (type) => type === segmentType
+    );
     if (validType) return validType;
     throw Error("Parsing failed due to unknown or invalid segment type");
   }
@@ -48,7 +54,10 @@ export default class Hl7Parser {
     throw Error("Parsing failed due to unknown or invalid message type");
   }
 
-  private static findSegmentByType(segments: Raw_Segment[], type: SegmentType): Raw_Segment {
+  private static findSegmentByType(
+    segments: Raw_Segment[],
+    type: SegmentType
+  ): Raw_Segment {
     const segment = segments.find((segment) => segment.type === type);
     if (!segment) throw "Stated SegmentType was not found";
     return segment;
@@ -61,19 +70,32 @@ export default class Hl7Parser {
     const message: T = messageTemplate;
     Object.values(message).forEach((baseSegment) => {
       const segment = Hl7Parser.initSegment(baseSegment, rawSegments);
-      return (baseSegment.children = Hl7Parser.initFields(baseSegment, segment.rawFields));
+      return (baseSegment.children = Hl7Parser.initFields(
+        baseSegment,
+        segment.rawFields
+      ));
     });
     return message;
   }
 
-  private static initSegment(baseSegment: Hl7Segment, rawSegments: Raw_Segment[]): Raw_Segment {
-    const segment = rawSegments.find((rawSegment) => baseSegment.type === rawSegment.type);
+  private static initSegment(
+    baseSegment: Hl7Segment,
+    rawSegments: Raw_Segment[]
+  ): Raw_Segment {
+    const segment = rawSegments.find(
+      (rawSegment) => baseSegment.type === rawSegment.type
+    );
     if (!segment || (!baseSegment.optional && !segment))
-      throw Error(`Required segment of type ${baseSegment.type} is missing to build message.`);
+      throw Error(
+        `Required segment of type ${baseSegment.type} is missing to build message.`
+      );
     return segment;
   }
 
-  private static initFields(baseSegment: Hl7Segment, rawFields: string[]): FieldDefinition {
+  private static initFields(
+    baseSegment: Hl7Segment,
+    rawFields: string[]
+  ): FieldDefinition {
     const fieldDefinition: FieldDefinition = baseSegment.children;
     Object.values(FieldDefinition).forEach((field) =>
       Hl7Parser.initField(field, rawFields[field.index])
