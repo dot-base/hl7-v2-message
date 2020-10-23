@@ -2,6 +2,7 @@ import ORU_Message from "@/model/messageTypes/oruMessage";
 import Hl7Field from "@/types/hl7Field";
 import Hl7IFieldDefinition from "@/types/hl7IFieldDefinition";
 import fs from "fs";
+import FieldDefinition from "./model/fieldTypes/fieldDefinition";
 
 export default class Hl7Definition {
   public static init(
@@ -23,8 +24,8 @@ export default class Hl7Definition {
   private static initFieldDefinition(
     segmentType: string,
     fields: FieldDefintion[]
-  ): Hl7IFieldDefinition {
-    let initFields: Hl7IFieldDefinition = {};
+  ): FieldDefinition {
+    let initFields: FieldDefinition = {};
     let index = 0;
     fields.forEach((field) => {
       const initField: Hl7Field = Hl7Definition.mapField(
@@ -60,7 +61,7 @@ export default class Hl7Definition {
 
   private static createClassFile(
     segmentType: string,
-    fieldDefinition: Hl7IFieldDefinition
+    fieldDefinition: FieldDefinition
   ) {
     const content: string = Hl7Definition.buildFromTemplate(
       segmentType,
@@ -86,18 +87,27 @@ export default class Hl7Definition {
     return uploadDirectory;
   }
 
-  private static buildFromTemplate(
+  private static buildFromTemplate<T extends FieldDefinition>(
     segmentType: string,
-    fieldDefinition: Hl7IFieldDefinition
+    fieldDefinition: T
   ): string {
-    const params: string[] = [];
-    Object.entries(fieldDefinition).forEach((field) =>
-      params.push(`${field[0]}:${JSON.stringify(field[1])}`)
+    const props: {
+      [key: string]: PropertyDescriptor;
+    } = Object.getOwnPropertyDescriptors(fieldDefinition);
+    const propEntries = Object.entries(props);
+    let fieldDefintionCode = "";
+    propEntries.forEach(
+      (entry) =>
+        (fieldDefintionCode += `/**\n* ${
+          entry[1].value.description
+        }\n*/\npublic ${entry[0]}:Hl7Field = ${JSON.stringify(
+          entry[1].value
+        )}; \n\n`)
     );
-    console.log(JSON.stringify(fieldDefinition));
-    return `import Hl7IFieldDefinition from "@/types/hl7IFieldDefinition"\n;import Hl7Field from "@/types/hl7Field";\n\n
+    const content = `import FieldDefinition from '@/model/fieldTypes/fieldDefinition';\n;import Hl7Field from "@/types/hl7Field";\n\n
     export default class ${segmentType.toLowerCase()}FieldDefinition extends FieldDefinition {\n
-      someCodeComesHere\n
+      ${fieldDefintionCode}\n
     }`;
+    return content;
   }
 }
