@@ -4,7 +4,7 @@
     "esModuleInterop": true,
     "strict": true,
     "module": "commonjs",
-    "target": "ES2017",
+    "target": "esnext",
     "importHelpers": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
