@@ -1,9 +1,9 @@
-import ORU_Message from "@/messageTypes/oruMessage";
-import Hl7Segment, { Raw_Segment } from "@/segmentTypes/hl7Segment";
 import { SegmentType, Hl7MessageType } from "@/enums/hl7Enums";
-import Hl7Message from "@/messageTypes/hl7Message";
-import Hl7Field from "@/fieldDefintions/hl7Field";
-import FieldDefinition from "@/fieldDefintions/fieldDefinition";
+import Hl7Field from "@/types/hl7Field";
+import FieldDefinition from "@/model/fieldTypes/fieldDefinition";
+import Hl7Message from "@/model/messageTypes/hl7Message";
+import ORU_Message from "@/model/messageTypes/oruMessage";
+import Hl7Segment, { Raw_Segment } from "@/model/segmentTypes/hl7Segment";
 
 export default class Hl7Parser {
   public static buildMessage(rawMessage: string): Hl7Message {
