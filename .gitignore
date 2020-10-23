@@ -1,5 +1,6 @@
 .DS_Store
 build/
+package-lock.json
 
 # Logs
 logs

@@ -13,7 +13,7 @@
     "FHIR"
   ],
   "scripts": {
-    "start": "nodemon --watch 'src/**/*' -e ts --exec 'npm run watch'",
+    "start": "npm run watch",
     "watch": "npm run lint && npm run prettier && npm run development",
     "lint": "eslint 'src/**' --ext .ts --fix",
     "lint-without-fix": "eslint 'src/**' --ext .ts",
@@ -35,7 +35,6 @@
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7"
