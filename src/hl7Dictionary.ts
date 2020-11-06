@@ -15,7 +15,8 @@ type version =
 export default class Hl7Dictionary {
   public static instance: Hl7Dictionary;
   public version: version;
-  public definition: Hl7MessageDefintion;
+  public definition: Hl7Defintion;
+
   private constructor(version: version) {
     this.version = version;
     this.definition = this.initDefintion(version);
@@ -27,11 +28,11 @@ export default class Hl7Dictionary {
     return new Hl7Dictionary(version);
   }
 
-  private initDefintion(version: version): Hl7MessageDefintion {
+  private initDefintion(version: version): Hl7Defintion {
     const versionDefinition = Object.entries(definitions).find((definition) => {
       if (definition[0] === version) return definition[1];
     });
     if (versionDefinition) return versionDefinition[1];
-    throw Error(`Invalid or unknown version ${version}`);
+    throw Error(`No HL7 defintion was found for invalid or unknown version ${version}`);
   }
 }
