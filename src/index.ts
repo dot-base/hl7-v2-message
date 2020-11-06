@@ -1,5 +1,5 @@
-import Hl7Dictionary from "@/hl7Dictionary";
-import Hl7MessageTemplate from "./hl7MessageTemplate";
+import Hl7Dictionary from "@/init/hl7Dictionary";
+import Hl7MessageTemplate from "./init/hl7MessageTemplate";
 import ORU_Message from "./model/messageTypes/oruMessage";
 
 const hl7Dictionary: Hl7Dictionary = Hl7Dictionary.getInstance("2.3");
