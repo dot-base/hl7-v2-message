@@ -3,28 +3,37 @@ import FieldDefinition from "@/model/fieldTypes/hl7FieldDefinition";
 import Hl7Segment from "@/types/hl7ISegment";
 
 export default class Hl7ClassBuilder {
-
-  public static createSegment(segment: Hl7Segment) {
+  public static createSegment(segment: Hl7Segment): void {
     const content = Hl7ClassBuilder.buildSegment(segment);
-    Hl7ClassBuilder.createFile("segmentTypes", `${segment.type.toLowerCase()}Segment`, content)
+    Hl7ClassBuilder.createFile(
+      "segmentTypes",
+      `${segment.type.toLowerCase()}Segment`,
+      content
+    );
   }
 
   public static createFieldDefinition(
     segmentType: string,
     fieldDefinition: FieldDefinition
-  ) {
+  ): void {
     const content: string = Hl7ClassBuilder.buildFieldDefinition(
       segmentType,
       fieldDefinition
     );
-    Hl7ClassBuilder.createFile("fieldTypes", `${segmentType.toLowerCase()}FieldDefinition`, content)
+    Hl7ClassBuilder.createFile(
+      "fieldTypes",
+      `${segmentType.toLowerCase()}FieldDefinition`,
+      content
+    );
   }
 
-  private static createFile(directory: string, fileName: string, fileContent: string) {
+  private static createFile(
+    directory: string,
+    fileName: string,
+    fileContent: string
+  ) {
     fs.writeFileSync(
-      `${Hl7ClassBuilder.uploadDirectory(
-        directory
-      )}/${fileName}.ts`,
+      `${Hl7ClassBuilder.uploadDirectory(directory)}/${fileName}.ts`,
       fileContent
     );
   }
