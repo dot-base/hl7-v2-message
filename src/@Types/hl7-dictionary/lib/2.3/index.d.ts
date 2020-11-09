@@ -1,11 +1,27 @@
+declare module "@hl7-dictionary/lib" {
+  let definitions: Hl7VersionDefiniton;
+  let tables: { [key: string]: Table };
+}
+
 declare module "2.3" {
   let fields: { [key: string]: Field };
   let segments: { [key: string]: Segment };
   let messages: { [key: string]: Message };
+}
 
-  export { fields };
-  export { segments };
-  export { messages };
+interface Table {
+  desc: string;
+  values: { [key: string]: string };
+}
+
+interface Hl7VersionDefiniton {
+  [key: string]: Hl7MessageDefintion;
+}
+
+interface Hl7MessageDefintion {
+  fields: { [key: string]: Field };
+  segments: { [key: string]: Segment };
+  messages: { [key: string]: Message };
 }
 
 interface FieldDefintion {
