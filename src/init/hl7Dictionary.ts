@@ -33,6 +33,8 @@ export default class Hl7Dictionary {
       if (definition[0] === version) return definition[1];
     });
     if (versionDefinition) return versionDefinition[1];
-    throw Error(`No HL7 defintion was found for invalid or unknown version ${version}`);
+    throw Error(
+      `No HL7 defintion was found for invalid or unknown version ${version}`
+    );
   }
 }
