@@ -5,12 +5,9 @@ import { SegmentType } from "@/enums/hl7Enums";
 import Hl7Segment from "@/types/hl7ISegment";
 
 export default class Hl7DefinitionBuilder {
-  public static init(template: Hl7Defintion) {
+  public static init(template: Hl7Defintion): void {
     Object.entries(template.segments).forEach((templateSegment) => {
-      Hl7DefinitionBuilder.createFieldDefinition(
-        templateSegment[0],
-        templateSegment[1].fields
-      );
+      Hl7DefinitionBuilder.createFieldDefinition(templateSegment);
       Hl7DefinitionBuilder.createSegmentDefinition(templateSegment);
     });
   }
@@ -35,19 +32,18 @@ export default class Hl7DefinitionBuilder {
     };
   }
 
-  private static createFieldDefinition(
-    segmentType: string,
-    fields: FieldDefintion[]
-  ): FieldDefinition {
+  private static createFieldDefinition(segment: [string, Segment]
+  ) {
+    const segmentType = segment[0];
+    const fields = segment[1].fields
     const initFields: FieldDefinition = Hl7DefinitionBuilder.initFields(
       segmentType,
       fields
     );
     Hl7ClassBuilder.createFieldDefinition(segmentType, initFields);
-    return initFields;
   }
 
-  private static initFields(segmentType: string, fields: FieldDefintion[]) {
+  private static initFields(segmentType: string, fields: FieldDefintion[]): FieldDefinition {
     let initFields: FieldDefinition = {};
     let index = 0;
     fields.forEach((field) => {
