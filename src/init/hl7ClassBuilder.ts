@@ -1,10 +1,10 @@
 import fs from "fs";
-import FieldDefinition from "@/model/fieldTypes/fieldDefinition";
-import Hl7ISegment from "@/types/hl7ISegment";
+import FieldDefinition from "@/model/fieldTypes/hl7FieldDefinition";
+import Hl7Segment from "@/types/hl7ISegment";
 
 export default class Hl7ClassBuilder {
 
-  public static createSegment(segment: Hl7ISegment) {
+  public static createSegment(segment: Hl7Segment) {
     const content = Hl7ClassBuilder.buildSegment(segment);
     Hl7ClassBuilder.createFile("segmentTypes", `${segment.type.toLowerCase()}Segment`, content)
   }
@@ -40,7 +40,7 @@ export default class Hl7ClassBuilder {
     return uploadDirectory;
   }
 
-  private static buildSegment(segment: Hl7ISegment): string {
+  private static buildSegment(segment: Hl7Segment): string {
     const segmentProps = `
    public type: SegmentType = SegmentType.${segment.type};
    public optional = false;
