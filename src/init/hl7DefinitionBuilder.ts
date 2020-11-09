@@ -1,23 +1,38 @@
-import ORU_Message from "@/model/messageTypes/oruMessage";
 import Hl7Field from "@/types/hl7Field";
 import FieldDefinition from "@/model/fieldTypes/fieldDefinition";
-import Hl7Types from "@/init/hl7Types";
+import Hl7ClassBuilder from "@/init/hl7ClassBuilder";
+import { SegmentType } from "@/enums/hl7Enums";
+import Hl7ISegment from "@/types/hl7ISegment";
 
 export default class Hl7DefinitionBuilder {
-  public static init(
-    template: Hl7Defintion,
-    message: ORU_Message
-  ): ORU_Message {
-    Object.values(message).forEach((segment) => {
-      Object.entries(template.segments).forEach((templateSegment) => {
-        if (templateSegment[0] === segment.type)
-          segment.children = Hl7DefinitionBuilder.createFieldDefinition(
-            templateSegment[0],
-            templateSegment[1].fields
-          );
-      });
+  public static init(template: Hl7Defintion) {
+    Object.entries(template.segments).forEach((templateSegment) => {
+      Hl7DefinitionBuilder.createFieldDefinition(
+        templateSegment[0],
+        templateSegment[1].fields
+      );
+      Hl7DefinitionBuilder.createSegmentDefinition(templateSegment);
     });
-    return message;
+  }
+
+  private static createSegmentDefinition(segment: [string, Segment]) {
+    const initSegment = Hl7DefinitionBuilder.initSegment(segment);
+    if (initSegment) Hl7ClassBuilder.createSegment(initSegment);
+  }
+
+  private static initSegment(
+    segment: [string, Segment]
+  ): Hl7ISegment | undefined {
+    const validType = Object.entries(SegmentType).find(
+      (type) => type[1] === segment[0]
+    );
+    if (!validType) return;
+    return {
+      type: validType[1],
+      children: {},
+      optional: true,
+      description: segment[1].desc,
+    };
   }
 
   private static createFieldDefinition(
@@ -28,7 +43,7 @@ export default class Hl7DefinitionBuilder {
       segmentType,
       fields
     );
-    Hl7Types.createClassFile(segmentType, initFields);
+    Hl7ClassBuilder.createFieldDefinition(segmentType, initFields);
     return initFields;
   }
 
