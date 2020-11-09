@@ -1,9 +1,9 @@
-declare module "hl7-dictionary/lib" {
+declare module "hl7-dictionary" {
   let definitions: Hl7VersionDefiniton;
   let tables: { [key: string]: Table };
 
-  export { definitions };
-  export { tables };
+  //export { definitions };
+  //export { tables };
 }
 
 interface Table {
@@ -12,13 +12,42 @@ interface Table {
 }
 
 interface Hl7VersionDefiniton {
-  [key: string]: Hl7MessageDefintion;
+  [key: string]: Hl7Defintion;
 }
 
-interface Hl7MessageDefintion {
+interface Hl7Defintion {
   fields: { [key: string]: Field };
   segments: { [key: string]: Segment };
   messages: { [key: string]: Message };
+}
+
+interface Message {
+  desc: string;
+  name: string;
+  segments: MessageDefinition;
+}
+
+interface MessageDefinition {
+  desc: string;
+  segments: SegmentDefintion[];
+}
+
+interface Segment {
+  desc: string;
+  fields: FieldDefintion[];
+}
+
+interface SegmentDefintion {
+  name: string;
+  desc: string;
+  min: number;
+  max: number;
+  children?: SegmentDefintion;
+}
+
+interface Field {
+  desc: string;
+  subfields: FieldDefintion[];
 }
 
 interface FieldDefintion {
@@ -27,33 +56,4 @@ interface FieldDefintion {
   opt: number;
   rep: number;
   len: number;
-}
-
-interface Segment {
-  desc: string;
-  fields: FieldDefintion[];
-}
-
-interface Field {
-  desc: string;
-  subfields: FieldDefintion[];
-}
-
-interface SegmentSpecification {
-  name: string;
-  desc: string;
-  min: number;
-  max: number;
-  children?: SegmentSpecification;
-}
-
-interface MessageContent {
-  desc: string;
-  segments: SegmentSpecification[];
-}
-
-interface Message {
-  desc: string;
-  name: string;
-  segments: MessageContent;
 }
