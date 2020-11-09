@@ -76,7 +76,7 @@ export default class Hl7ClassBuilder {
             entry[1].value
           )}; \n\n`)
     );
-    return `import FieldDefinition from '@/model/fieldTypes/fieldDefinition';\nimport Hl7Field from "@/types/hl7Field";\n
+    return `import FieldDefinition from '@/model/fieldTypes/hl7FieldDefinition';\nimport Hl7Field from "@/types/hl7IField";\n
         export default class ${segmentType}_FieldDefinition extends FieldDefinition {\n
           ${fieldDefintionProps}\n
         }`;
