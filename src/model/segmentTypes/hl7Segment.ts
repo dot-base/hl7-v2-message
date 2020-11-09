@@ -1,7 +1,5 @@
 import { SegmentType } from "@/enums/hl7Enums";
-import FieldDefinition, {
-  RawFieldDefinition,
-} from "@/model/fieldTypes/fieldDefinition";
+import FieldDefinition from "@/model/fieldTypes/hl7FieldDefinition";
 import Hl7ISegment from "@/types/hl7ISegment";
 
 export default abstract class Hl7Segment implements Hl7ISegment {

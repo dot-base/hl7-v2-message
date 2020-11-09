@@ -1,4 +1,4 @@
-export default interface Hl7Field {
+export default interface Hl7IField {
   index: number;
   identifier: string;
   description: string;
@@ -15,7 +15,7 @@ export default interface Hl7Field {
  * Alternatievely just leave it as array within type Hl7Field
  * Depends on strictness of subfield definiton
  * */
-export interface Hl7Subfield extends Hl7Field {
+export interface Hl7ISubfield extends Hl7IField {
   index: number;
   identifier: string;
   description: string;
