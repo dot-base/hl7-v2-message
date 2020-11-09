@@ -1,8 +1,8 @@
-import Hl7Field from "@/types/hl7Field";
-import FieldDefinition from "@/model/fieldTypes/fieldDefinition";
+import Hl7Field from "@/types/hl7IField";
+import FieldDefinition from "@/model/fieldTypes/hl7FieldDefinition";
 import Hl7ClassBuilder from "@/init/hl7ClassBuilder";
 import { SegmentType } from "@/enums/hl7Enums";
-import Hl7ISegment from "@/types/hl7ISegment";
+import Hl7Segment from "@/types/hl7ISegment";
 
 export default class Hl7DefinitionBuilder {
   public static init(template: Hl7Defintion) {
@@ -22,7 +22,7 @@ export default class Hl7DefinitionBuilder {
 
   private static initSegment(
     segment: [string, Segment]
-  ): Hl7ISegment | undefined {
+  ): Hl7Segment | undefined {
     const validType = Object.entries(SegmentType).find(
       (type) => type[1] === segment[0]
     );
