@@ -1,9 +1,9 @@
 import ORU_Message from "@/model/messageTypes/oruMessage";
 import Hl7Field from "@/types/hl7Field";
-import FieldDefinition from "../model/fieldTypes/fieldDefinition";
+import FieldDefinition from "@/model/fieldTypes/fieldDefinition";
 import Hl7Types from "@/init/hl7Types";
 
-export default class Hl7MessageTemplate {
+export default class Hl7DefinitionBuilder {
   public static init(
     template: Hl7Defintion,
     message: ORU_Message
@@ -11,7 +11,7 @@ export default class Hl7MessageTemplate {
     Object.values(message).forEach((segment) => {
       Object.entries(template.segments).forEach((templateSegment) => {
         if (templateSegment[0] === segment.type)
-          segment.children = Hl7MessageTemplate.initFieldDefinition(
+          segment.children = Hl7DefinitionBuilder.createFieldDefinition(
             templateSegment[0],
             templateSegment[1].fields
           );
@@ -20,20 +20,23 @@ export default class Hl7MessageTemplate {
     return message;
   }
 
-  private static initFieldDefinition(
+  private static createFieldDefinition(
     segmentType: string,
     fields: FieldDefintion[]
   ): FieldDefinition {
-    const initFields: FieldDefinition = Hl7MessageTemplate.setFields(segmentType, fields)
+    const initFields: FieldDefinition = Hl7DefinitionBuilder.initFields(
+      segmentType,
+      fields
+    );
     Hl7Types.createClassFile(segmentType, initFields);
     return initFields;
   }
 
-  private static setFields(segmentType: string, fields: FieldDefintion[]) {
+  private static initFields(segmentType: string, fields: FieldDefintion[]) {
     let initFields: FieldDefinition = {};
     let index = 0;
     fields.forEach((field) => {
-      const initField: Hl7Field = Hl7MessageTemplate.setField(
+      const initField: Hl7Field = Hl7DefinitionBuilder.initField(
         segmentType,
         field,
         index
@@ -47,7 +50,7 @@ export default class Hl7MessageTemplate {
     return initFields;
   }
 
-  private static setField(
+  private static initField(
     segmentType: string,
     field: FieldDefintion,
     index: number
