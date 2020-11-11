@@ -23,7 +23,6 @@
     "production": "node -r tsconfig-paths/register build/index.js"
   },
   "dependencies": {
-    "health-level-seven-parser": "^1.2.2",
     "hl7-dictionary": "^1.0.1",
     "tsconfig-paths": "^3.9.0",
     "tslib": "^2.0.0"
