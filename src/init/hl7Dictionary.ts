@@ -1,16 +1,6 @@
 import { definitions, tables } from "hl7-dictionary";
 
-type version =
-  | "2.1"
-  | "2.2"
-  | "2.3"
-  | "2.3.1"
-  | "2.4"
-  | "2.5"
-  | "2.5.1"
-  | "2.6"
-  | "2.7"
-  | "2.7.1";
+type version = "2.1" | "2.2" | "2.3" | "2.3.1" | "2.4" | "2.5" | "2.5.1" | "2.6" | "2.7" | "2.7.1";
 
 export default class Hl7Dictionary {
   public static instance: Hl7Dictionary;
@@ -33,8 +23,6 @@ export default class Hl7Dictionary {
       if (definition[0] === version) return definition[1];
     });
     if (versionDefinition) return versionDefinition[1];
-    throw Error(
-      `No HL7 defintion was found for invalid or unknown version ${version}`
-    );
+    throw Error(`No HL7 defintion was found for invalid or unknown version ${version}`);
   }
 }
