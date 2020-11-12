@@ -4,25 +4,32 @@ import Hl7ISegment from "@/types/hl7ISegment";
 import Hl7IMessage from "@/types/hl7IMessage";
 import Hl7IMessageDefinition from "@/types/hl7IMessageDefinition";
 import ClassTemplate from "@/init/classTemplate";
+import Hl7 from '@/types/hl7';
 
-export default class Hl7ModelBuilder {
-  public static createMessage(message: Hl7IMessage): void {
-    const content = Hl7ModelBuilder.buildMessage(message);
-    Hl7ModelBuilder.createFile("messages", `${message.name.toLowerCase()}Message`, content);
+export default class Hl7Model {
+public static createClassFiles(hl7Types:Hl7):void{
+  hl7Types.messages.forEach(message=>Hl7Model.createMessage(message));
+  hl7Types.segments.forEach(segments=>Hl7Model.createSegment(segments));
+  hl7Types.fields.forEach(fields=>Hl7Model.createFields(fields.segmentType,fields.props));
+}
+
+  private static createMessage(message: Hl7IMessage): void {
+    const content = Hl7Model.buildMessage(message);
+    Hl7Model.createFile("messages", `${message.name.toLowerCase()}Message`, content);
   }
 
-  public static createSegment(segment: Hl7ISegment): void {
-    const content = Hl7ModelBuilder.buildSegment(segment);
-    Hl7ModelBuilder.createFile("segments", `${segment.type.toLowerCase()}Segment`, content);
+  private static createSegment(segment: Hl7ISegment): void {
+    const content = Hl7Model.buildSegment(segment);
+    Hl7Model.createFile("segments", `${segment.type.toLowerCase()}Segment`, content);
   }
 
-  public static createFields(segmentType: string, fields: Hl7IFields): void {
-    const content: string = Hl7ModelBuilder.buildFields(segmentType, fields);
-    Hl7ModelBuilder.createFile("fields", `${segmentType.toLowerCase()}Fields`, content);
+  private static createFields(segmentType: string, fields: Hl7IFields): void {
+    const content: string = Hl7Model.buildFields(segmentType, fields);
+    Hl7Model.createFile("fields", `${segmentType.toLowerCase()}Fields`, content);
   }
 
   private static createFile(directory: string, fileName: string, fileContent: string) {
-    fs.writeFileSync(`${Hl7ModelBuilder.uploadDirectory(directory)}/${fileName}.ts`, fileContent);
+    fs.writeFileSync(`${Hl7Model.uploadDirectory(directory)}/${fileName}.ts`, fileContent);
   }
 
   private static uploadDirectory(dirName: string): string {
