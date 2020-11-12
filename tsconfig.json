@@ -17,6 +17,6 @@
       "@/*": ["src/*", "build/*"]
     }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "hl7-dictionary.d.ts"],
   "exclude": ["node_modules"]
 }
