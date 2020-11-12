@@ -1,15 +1,15 @@
 import { definitions, tables } from "hl7-dictionary";
 
-type version = "2.1" | "2.2" | "2.3" | "2.3.1" | "2.4" | "2.5" | "2.5.1" | "2.6" | "2.7" | "2.7.1";
-
 export default class Hl7Dictionary {
   public static instance: Hl7Dictionary;
   public version: version;
   public definition: Hl7Defintion;
+  public tables: Hl7Tables;
 
   private constructor(version: version) {
     this.version = version;
     this.definition = this.initDefintion(version);
+    this.tables = tables;
   }
 
   public static getInstance(version: version): Hl7Dictionary {

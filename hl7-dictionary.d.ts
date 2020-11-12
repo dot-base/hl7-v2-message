@@ -1,16 +1,22 @@
 declare module "hl7-dictionary" {
     let definitions: Hl7VersionDefiniton;
-    let tables: { [key: string]: Table };
+    let tables: Hl7Tables;
   }
+
+  type version = "2.1" | "2.2" | "2.3" | "2.3.1" | "2.4" | "2.5" | "2.5.1" | "2.6" | "2.7" | "2.7.1";
   
-  interface Table {
+  interface Hl7Tables {
+    [key: string]: Hl7Table
+  }
+
+  interface Hl7Table {
     desc: string;
     values: { [key: string]: string };
   }
   
-  interface Hl7VersionDefiniton {
-    [key: string]: Hl7Defintion;
-  }
+  type Hl7VersionDefiniton = {
+  [key in version]: Hl7Defintion;
+  };
   
   interface Hl7Defintion {
     fields: { [key: string]: Field };
