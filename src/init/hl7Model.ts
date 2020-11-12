@@ -44,7 +44,7 @@ export default class Hl7ModelBuilder {
           messageDef.definition
         )},value: new ${messageDef.definition.type}_Segment() };\n`;
         imports += `import ${messageDef.definition.type}_Segment from '@/model/segments/${messageDef.definition.type}Segment';\n`;
-      } else messageProps += `public ${message[0]}:string ="${message[1].value}"\n`;
+      } else messageProps += `public ${message[0]}:string = '${message[1].value}';\n`;
     });
     return ClassTemplate.message(message.name, messageProps, imports, message.description);
   }
