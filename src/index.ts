@@ -1,5 +1,7 @@
-import Hl7Dictionary from "@/init/hl7Dictionary";
-import Hl7DefinitionBuilder from "@/init/hl7Types";
+ //TODO remove default from all classes in /model and export here
 
-const hl7Dictionary: Hl7Dictionary = Hl7Dictionary.getInstance("2.3");
-Hl7DefinitionBuilder.init(hl7Dictionary.definition);
+ /**
+export { Hl7Message } from '@/model/hl7Message';
+export { Hl7Segment } from '@/model/hl7Segment';
+...
+ */ 
