@@ -76,9 +76,9 @@ export default class Hl7Model {
           }:Hl7IMessageDefinition = { definition:${JSON.stringify(
             messageDef.definition
           )},value: new ${messageDef.definition.type}_Segment() };\n`;
-          imports += `import ${
+          imports += `import { ${
             messageDef.definition.type
-          }_Segment from '@/model/segments/${messageDef.definition.type.toLowerCase()}Segment';\n`;
+          }_Segment } from '../segments/${messageDef.definition.type.toLowerCase()}Segment';\n`;
         } else
           messageProps += `public ${message[0]}:string = '${message[1].value}';\n`;
       }
