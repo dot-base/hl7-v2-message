@@ -18,9 +18,9 @@
     "lint": "eslint 'src/**' --ext .ts --fix",
     "lint-without-fix": "eslint 'src/**' --ext .ts",
     "prettier": "prettier --write 'src/**/*'",
-    "development": "NODE_ENV=development node -r tsconfig-paths/register -r ts-node/register src/index.ts",
+    "development": "NODE_ENV=development node -r tsconfig-paths/register -r ts-node/register src/build.ts",
     "build": "tsc",
-    "production": "node -r tsconfig-paths/register build/index.js"
+    "production": "node -r tsconfig-paths/register build/build.js"
   },
   "dependencies": {
     "hl7-dictionary": "^1.0.1",
