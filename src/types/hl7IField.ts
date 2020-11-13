@@ -8,5 +8,3 @@ export default interface Hl7IField {
   value: string;
   subFields?: string[];
 }
-
-

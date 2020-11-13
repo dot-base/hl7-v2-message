@@ -1,6 +1,5 @@
 import Hl7IField from "@/types/hl7IField";
 import Hl7IFields from "@/types/hl7IFields";
-import Hl7Model from "@/init/hl7Model";
 import Hl7ISegment from "@/types/hl7ISegment";
 import Hl7IMessage from "@/types/hl7IMessage";
 import Hl7ISegmentDefinition from "@/types/hl7ISegmentDefinition";
