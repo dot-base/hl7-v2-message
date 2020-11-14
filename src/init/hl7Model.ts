@@ -7,7 +7,10 @@ import ClassTemplate from "@/init/classTemplate";
 import Hl7 from "@/types/hl7";
 
 export default class Hl7Model {
-  public static createClassFiles(hl7Types: Hl7): void {
+  private static baseDirectory: string;
+
+  public static createClassFiles(version: version, hl7Types: Hl7): void {
+    Hl7Model.setBaseDirectory(version);
     hl7Types.messages.forEach((message) => Hl7Model.createMessage(message));
     hl7Types.segments.forEach((segments) => Hl7Model.createSegment(segments));
     hl7Types.fields.forEach((fields) =>
@@ -48,20 +51,27 @@ export default class Hl7Model {
     fileContent: string
   ) {
     fs.writeFileSync(
-      `${Hl7Model.uploadDirectory(directory)}/${fileName}.ts`,
+      `${Hl7Model.setDirectory(directory)}/${fileName}.ts`,
       fileContent
     );
   }
 
-  private static uploadDirectory(dirName: string): string {
-    const uploadDirectory =
+  private static setBaseDirectory(version: version) {
+    Hl7Model.baseDirectory =
       process.env.NODE_ENV === "development"
-        ? `./src/model/${dirName}`
-        : `src/model/${dirName}`;
-    if (!fs.existsSync(uploadDirectory)) {
-      fs.mkdirSync(uploadDirectory);
+        ? `./src/model/${version}`
+        : `src/model/${version}`;
+    if (!fs.existsSync(Hl7Model.baseDirectory)) {
+      fs.mkdirSync(Hl7Model.baseDirectory);
     }
-    return uploadDirectory;
+  }
+
+  private static setDirectory(dirName: string): string {
+    const directory = `${Hl7Model.baseDirectory}/${dirName}`;
+    if (!fs.existsSync(directory)) {
+      fs.mkdirSync(directory);
+    }
+    return directory;
   }
 
   private static buildMessage(message: Hl7IMessage): string {
