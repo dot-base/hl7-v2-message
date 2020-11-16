@@ -2,8 +2,6 @@ declare module "hl7-dictionary" {
     let definitions: Hl7VersionDefiniton;
     let tables: Hl7Tables;
   }
-
-  type version = "2.1" | "2.2" | "2.3" | "2.3.1" | "2.4" | "2.5" | "2.5.1" | "2.6" | "2.7" | "2.7.1";
   
   interface Hl7Tables {
     [key: string]: Hl7Table
@@ -15,7 +13,7 @@ declare module "hl7-dictionary" {
   }
   
   type Hl7VersionDefiniton = {
-  [key in version]: Hl7Defintion;
+  [key :string]: Hl7Defintion;
   };
   
   interface Hl7Defintion {
