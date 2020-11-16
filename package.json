@@ -23,9 +23,7 @@
     "production": "node -r tsconfig-paths/register build/build.js"
   },
   "dependencies": {
-    "hl7-dictionary": "^1.0.1",
-    "tsconfig-paths": "^3.9.0",
-    "tslib": "^2.0.0"
+
   },
   "devDependencies": {
     "@types/node": "^14.14.2",
@@ -36,7 +34,10 @@
     "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.0.5",
     "ts-node": "^8.10.2",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "hl7-dictionary": "^1.0.1",
+    "tsconfig-paths": "^3.9.0",
+    "tslib": "^2.0.0"
   },
   "eslintConfig": {
     "root": true,
