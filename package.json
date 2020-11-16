@@ -1,6 +1,6 @@
 {
   "name": "hl7-v2.x-message",
-  "description": "typescript based library to parse HL7 v2.x message strings into typed objects",
+  "description": "typescript based objects of HL7 v2.x messages",
   "version": "0.1.0",
   "private": true,
   "main": "build/index.js",
