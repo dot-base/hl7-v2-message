@@ -9,12 +9,12 @@ import Hl7 from "@/types/hl7";
 export default class Hl7Model {
   private static baseDirectory: string;
 
-  public static createClassFiles(version: version, hl7Types: Hl7): void {
+  public static createClassFiles(version: string, hl7Types: Hl7): void {
     Hl7Model.setBaseDirectory(version);
     hl7Types.messages.forEach((message) => Hl7Model.createMessage(message));
-    hl7Types.segments.forEach((segments) => Hl7Model.createSegment(segments));
-    hl7Types.fields.forEach((fields) =>
-      Hl7Model.createFields(fields.segmentType, fields.props)
+    hl7Types.segments.forEach((segment) => Hl7Model.createSegment(segment));
+    hl7Types.fields.forEach((field) =>
+      Hl7Model.createFields(field.segmentType, field.fields)
     );
   }
 
@@ -56,7 +56,7 @@ export default class Hl7Model {
     );
   }
 
-  private static setBaseDirectory(version: version) {
+  private static setBaseDirectory(version: string) {
     Hl7Model.baseDirectory =
       process.env.NODE_ENV === "development"
         ? `./src/model/${version}`
