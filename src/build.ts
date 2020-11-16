@@ -1,7 +1,7 @@
-import Hl7Types from "@/init/hl7Types";
 import { definitions } from "hl7-dictionary";
-import Hl7 from "@/types/hl7";
-import Hl7Model from "@/init/hl7Model";
+import Hl7Model from "@/template/hl7Model";
+import Hl7Types from "@/template/hl7Types";
+import Hl7 from "@/lib/types/hl7";
 
 /**
  * Initializes HL7 Types based on stated version and

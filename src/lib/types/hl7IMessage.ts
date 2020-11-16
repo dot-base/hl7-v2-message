@@ -1,4 +1,4 @@
-import Hl7IMessageDefinition from "@/types/hl7IMessageDefinition";
+import Hl7IMessageDefinition from "./hl7IMessageDefinition";
 
 export default interface Hl7IMessage {
   [key: string]: Hl7IMessageDefinition | string;

@@ -1,10 +1,10 @@
 import fs from "fs";
-import Hl7IFields from "@/types/hl7IFields";
-import Hl7ISegment from "@/types/hl7ISegment";
-import Hl7IMessage from "@/types/hl7IMessage";
-import Hl7IMessageDefinition from "@/types/hl7IMessageDefinition";
-import ClassTemplate from "@/init/classTemplate";
-import Hl7 from "@/types/hl7";
+import ClassTemplate from "@/template/classTemplate";
+import Hl7IFields from "@/lib/types/hl7IFields";
+import Hl7 from "@/lib/types/hl7";
+import Hl7IMessage from "@/lib/types/hl7IMessage";
+import Hl7ISegment from "@/lib/types/hl7ISegment";
+import Hl7IMessageDefinition from "@/lib/types/hl7IMessageDefinition";
 
 export default class Hl7Model {
   private static baseDirectory: string;
@@ -59,8 +59,8 @@ export default class Hl7Model {
   private static setBaseDirectory(version: string) {
     Hl7Model.baseDirectory =
       process.env.NODE_ENV === "development"
-        ? `./src/model/${version}`
-        : `src/model/${version}`;
+        ? `./src/lib/build/${version}`
+        : `lib/build/${version}`;
     if (!fs.existsSync(Hl7Model.baseDirectory)) {
       fs.mkdirSync(Hl7Model.baseDirectory);
     }
@@ -126,7 +126,7 @@ export default class Hl7Model {
       (field) =>
         (fieldProps += `\n/**\n* ${field[1].value.description}\n*/\npublic ${
           field[0]
-        }:Hl7IField = ${JSON.stringify(field[1].value)}; \n`)
+        }:Hl7Field = ${JSON.stringify(field[1].value)}; \n`)
     );
     return ClassTemplate.fields(segmentType, fieldProps);
   }

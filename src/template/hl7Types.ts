@@ -1,11 +1,10 @@
-import Hl7IField from "@/types/hl7IField";
-import Hl7IFields from "@/types/hl7IFields";
-import Hl7ISegment from "@/types/hl7ISegment";
-import Hl7IMessage from "@/types/hl7IMessage";
-import Hl7ISegmentDefinition from "@/types/hl7ISegmentDefinition";
-import Hl7 from "@/types/hl7";
-import { Hl7Field } from "@/model/hl7Field";
-import Hl7IFieldDefinition from "@/types/hl7FieldDefinition";
+import Hl7ISegment from "@/lib/types/hl7ISegment";
+import Hl7IMessage from "@/lib/types/hl7IMessage";
+import Hl7IFields from "@/lib/types/hl7IFields";
+import Hl7IField from "@/lib/types/hl7IField";
+import Hl7 from "@/lib/types/hl7";
+import Hl7ISegmentDefinition from "@/lib/types/hl7ISegmentDefinition";
+import Hl7IFieldDefinition from "@/lib/types/hl7FieldDefinition";
 
 export default class Hl7Types {
   public static init(template: Hl7Defintion): Hl7 {
@@ -81,8 +80,8 @@ export default class Hl7Types {
     const segmentType = segments[0];
     const fields: FieldDefintion[] = segments[1].fields;
     return {
-      segmentType: segments[0],
-      fields: Hl7Types.initFields(segments[0], segments[1].fields),
+      segmentType: segmentType,
+      fields: Hl7Types.initFields(segmentType, fields),
     };
   }
 
@@ -120,7 +119,7 @@ export default class Hl7Types {
     };
   }
 
-  private static addFieldProp(initFields: Hl7IFields, initField: Hl7Field) {
+  private static addFieldProp(initFields: Hl7IFields, initField: Hl7IField) {
     return Object.defineProperty(initFields, initField.identifier, {
       value: initField,
       writable: true,

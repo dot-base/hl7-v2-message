@@ -1,0 +1,16 @@
+{
+  "name": "hl7-v2.x-message",
+  "description": "typescript based objects of HL7 v2.x messages",
+  "version": "0.1.0",
+  "private": true,
+  "main": "build/index.ts",
+  "homepage": "https://github.com/dot-base/hl7-v2-message",
+  "repository": "https://github.com/dot-base/hl7-v2-message",
+  "keywords": [
+    "Hl7",
+    "Health",
+    "Level",
+    "Seven",
+    "FHIR"
+  ]
+}
