@@ -8,10 +8,10 @@ import Hl7IMessageDefinition from "@/lib/types/hl7IMessageDefinition";
 import Hl7IFieldDefinition from "@/lib/types/hl7FieldDefinition";
 
 export default class Hl7Model {
-  private static baseDirectory: string;
+  private static versionDirectory: string;
 
   public static createClassFiles(version: string, hl7Types: Hl7): void {
-    Hl7Model.setBaseDirectory(version);
+    Hl7Model.setVersionDirectory(version);
     hl7Types.messages.forEach(Hl7Model.createMessage);
     hl7Types.segments.forEach(Hl7Model.createSegment);
     hl7Types.fields.forEach(Hl7Model.createFields);
@@ -38,11 +38,11 @@ export default class Hl7Model {
     fs.writeFileSync(`${Hl7Model.setDirectory(directory)}/${fileName}.ts`, fileContent);
   }
 
-  private static setBaseDirectory(version: string) {
-    Hl7Model.baseDirectory =
+  private static setVersionDirectory(version: string) {
+    Hl7Model.versionDirectory =
       process.env.NODE_ENV === "development" ? `./src/lib/build/${version}` : `lib/build/${version}`;
-    if (!fs.existsSync(Hl7Model.baseDirectory)) {
-      fs.mkdirSync(Hl7Model.baseDirectory);
+    if (!fs.existsSync(Hl7Model.versionDirectory)) {
+      fs.mkdirSync(Hl7Model.versionDirectory);
     }
   }
 
