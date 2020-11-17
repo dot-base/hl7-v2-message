@@ -17,7 +17,7 @@ export default class Hl7Types {
   private static initMessage(message: [string, Message]): Hl7IMessage {
     let initMessage: Hl7IMessage = {
       name: message[1].name,
-      description: message[1].desc,
+      description: message[1].desc.replace(/['"]/g, ""),
     };
     const segments = Hl7Types.retrieveSegments(message[1].segments.segments);
     segments.forEach((segment) => {
@@ -57,7 +57,7 @@ export default class Hl7Types {
     return {
       type: segment[0],
       children: {},
-      description: segment[1].desc,
+      description: segment[1].desc.replace(/['"]/g, ""),
     };
   }
 
@@ -85,7 +85,7 @@ export default class Hl7Types {
     return {
       index: index,
       identifier: `${segmentType}_${index + 1}`,
-      description: field.desc,
+      description: field.desc.replace(/['"]/g, ""),
       length: field.len,
       optional: field.opt === 1 ? true : false,
       repeatable: field.rep,
