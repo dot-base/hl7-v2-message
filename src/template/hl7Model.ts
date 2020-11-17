@@ -6,7 +6,6 @@ import Hl7IMessage from "@/lib/types/hl7IMessage";
 import Hl7ISegment from "@/lib/types/hl7ISegment";
 import Hl7IMessageDefinition from "@/lib/types/hl7IMessageDefinition";
 import Hl7IFieldDefinition from "@/lib/types/hl7FieldDefinition";
-import { dir } from 'console';
 
 export default class Hl7Model {
   private static versionDirectory: string;
@@ -39,9 +38,9 @@ export default class Hl7Model {
     fs.writeFileSync(`${Hl7Model.setDirectory(directory)}/${fileName}.ts`, fileContent);
   }
 
-  private static setVersionDirectory(baseDirectory: string, version: string):string {
+  private static setVersionDirectory(baseDirectory: string, version: string): string {
     const directory = `${baseDirectory}/${version}`;
-    if (!fs.existsSync(Hl7Model.versionDirectory)) fs.mkdirSync(Hl7Model.versionDirectory);
+    if (!fs.existsSync(directory)) fs.mkdirSync(directory);
     return directory;
   }
 
