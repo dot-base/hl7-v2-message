@@ -10,8 +10,8 @@ import Hl7IFieldDefinition from "@/lib/types/hl7FieldDefinition";
 export default class Hl7Model {
   private static versionDirectory: string;
 
-  public static createClassFiles(version: string, hl7Types: Hl7): void {
-    Hl7Model.setVersionDirectory(version);
+  public static createClassFiles(baseDirectory:string, version: string, hl7Types: Hl7): void {
+    Hl7Model.setVersionDirectory(baseDirectory, version);
     hl7Types.messages.forEach(Hl7Model.createMessage);
     hl7Types.segments.forEach(Hl7Model.createSegment);
     hl7Types.fields.forEach(Hl7Model.createFields);
@@ -38,19 +38,16 @@ export default class Hl7Model {
     fs.writeFileSync(`${Hl7Model.setDirectory(directory)}/${fileName}.ts`, fileContent);
   }
 
-  private static setVersionDirectory(version: string) {
-    Hl7Model.versionDirectory =
-      process.env.NODE_ENV === "development" ? `./src/lib/build/${version}` : `lib/build/${version}`;
-    if (!fs.existsSync(Hl7Model.versionDirectory)) {
-      fs.mkdirSync(Hl7Model.versionDirectory);
-    }
+  private static setVersionDirectory(baseDirectory:string, version: string) {
+    Hl7Model.versionDirectory = `${baseDirectory}/${version}`
+      if (!fs.existsSync(Hl7Model.versionDirectory))
+        fs.mkdirSync(Hl7Model.versionDirectory);
   }
 
   private static setDirectory(dirName: string): string {
-    const directory = `${Hl7Model.baseDirectory}/${dirName}`;
-    if (!fs.existsSync(directory)) {
+    const directory = `${Hl7Model.versionDirectory}/${dirName}`;
+    if (!fs.existsSync(directory)) 
       fs.mkdirSync(directory);
-    }
     return directory;
   }
 
