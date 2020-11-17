@@ -7,11 +7,7 @@ export default class Hl7 {
   public segments: Hl7ISegment[];
   public fields: Hl7IFieldDefinition[];
 
-  constructor(
-    messages: Hl7IMessage[],
-    segments: Hl7ISegment[],
-    fields: Hl7IFieldDefinition[]
-  ) {
+  constructor(messages: Hl7IMessage[], segments: Hl7ISegment[], fields: Hl7IFieldDefinition[]) {
     this.messages = messages;
     this.segments = segments;
     this.fields = fields;
