@@ -8,15 +8,9 @@ import Hl7IFieldDefinition from "@/lib/types/hl7FieldDefinition";
 
 export default class Hl7Types {
   public static init(template: Hl7Defintion): Hl7 {
-    const segments: Hl7ISegment[] = Object.entries(template.segments).map(
-      Hl7Types.initSegment
-    );
-    const messages = Object.entries(template.messages).map(
-      Hl7Types.initMessage
-    );
-    const fields = Object.entries(template.segments).map(
-      Hl7Types.initFieldDefinition
-    );
+    const segments: Hl7ISegment[] = Object.entries(template.segments).map(Hl7Types.initSegment);
+    const messages = Object.entries(template.messages).map(Hl7Types.initMessage);
+    const fields = Object.entries(template.segments).map(Hl7Types.initFieldDefinition);
     return new Hl7(messages, segments, fields);
   }
 
@@ -32,9 +26,7 @@ export default class Hl7Types {
     return initMessage;
   }
 
-  private static retrieveSegments(
-    segments: SegmentDefintion[]
-  ): Hl7ISegmentDefinition[] {
+  private static retrieveSegments(segments: SegmentDefintion[]): Hl7ISegmentDefinition[] {
     const initSegments: Hl7ISegmentDefinition[] = [];
     segments.forEach((segment) => {
       const initSegment = Hl7Types.retrieveSegment(segment);
@@ -43,9 +35,7 @@ export default class Hl7Types {
     return initSegments;
   }
 
-  private static retrieveSegment(
-    segment: SegmentDefintion
-  ): Hl7ISegmentDefinition | undefined {
+  private static retrieveSegment(segment: SegmentDefintion): Hl7ISegmentDefinition | undefined {
     if (!segment.children) {
       return {
         type: segment.name,
@@ -56,10 +46,7 @@ export default class Hl7Types {
     Hl7Types.retrieveSegment(segment.children);
   }
 
-  private static addMessageProp(
-    initMessage: Hl7IMessage,
-    segment: Hl7ISegmentDefinition
-  ) {
+  private static addMessageProp(initMessage: Hl7IMessage, segment: Hl7ISegmentDefinition) {
     return Object.defineProperty(initMessage, segment.type, {
       value: { definition: segment },
       writable: true,
@@ -74,9 +61,7 @@ export default class Hl7Types {
     };
   }
 
-  private static initFieldDefinition(
-    segments: [string, Segment]
-  ): Hl7IFieldDefinition {
+  private static initFieldDefinition(segments: [string, Segment]): Hl7IFieldDefinition {
     const segmentType = segments[0];
     const fields: FieldDefintion[] = segments[1].fields;
     return {
@@ -85,29 +70,18 @@ export default class Hl7Types {
     };
   }
 
-  private static initFields(
-    segmentType: string,
-    fields: FieldDefintion[]
-  ): Hl7IFields {
+  private static initFields(segmentType: string, fields: FieldDefintion[]): Hl7IFields {
     let initFields: Hl7IFields = {};
     let index = 0;
     fields.forEach((field) => {
-      const initField: Hl7IField = Hl7Types.initField(
-        segmentType,
-        field,
-        index
-      );
+      const initField: Hl7IField = Hl7Types.initField(segmentType, field, index);
       index = index + 1;
       initFields = Hl7Types.addFieldProp(initFields, initField);
     });
     return initFields;
   }
 
-  private static initField(
-    segmentType: string,
-    field: FieldDefintion,
-    index: number
-  ): Hl7IField {
+  private static initField(segmentType: string, field: FieldDefintion, index: number): Hl7IField {
     return {
       index: index,
       identifier: `${segmentType}_${index + 1}`,
