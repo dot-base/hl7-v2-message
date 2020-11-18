@@ -43,7 +43,8 @@ interface SegmentDefintion {
   desc: string;
   min: number;
   max: number;
-  children?: SegmentDefintion;
+  children?: SegmentDefintion[];
+  compounds?: SegmentDefintion[];
 }
   
 interface Field {
