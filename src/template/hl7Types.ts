@@ -41,11 +41,11 @@ export default class Hl7Types {
   ): Hl7IMessageDefinition[] {
     const messageDef: Hl7IMessageDefinition = {
       definition: {
-        type: segment.name,
+        type: segment.name ? segment.name.replace(/[\W]/g, "_") : "",
         isOptional: segment.min === 0,
         repeatable: segment.max === 0,
       },
-      isSegment: segment.children === undefined && segment.compounds === undefined,
+      isSegment: segment.name !== "" && segment.children === undefined && segment.compounds === undefined,
       compoundDefinition: compoundDef ? compoundDef.definition : undefined,
     };
     messageDefinitions.push(messageDef);
