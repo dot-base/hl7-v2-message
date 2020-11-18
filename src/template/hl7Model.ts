@@ -56,12 +56,18 @@ export default class Hl7Model {
     Object.entries(Object.getOwnPropertyDescriptors(message)).forEach((message) => {
       if (message[0] !== "name" && message[0] !== "description") {
         const messageDef: Hl7IMessageDefinition = message[1].value;
-        messageProps += `public ${message[0]}:Hl7IMessageDefinition = { definition:${JSON.stringify(
+        messageProps += `public ${message[0]}:Hl7IMessageDefinition = { definition: ${JSON.stringify(
           messageDef.definition
-        )},value: new ${messageDef.definition.type}_Segment() };\n`;
-        imports += `import { ${
-          messageDef.definition.type
-        }_Segment } from '../segments/${messageDef.definition.type.toLowerCase()}Segment';\n`;
+        )},isSegment:${messageDef.isSegment}`;
+        if (messageDef.isSegment) {
+          messageProps += `,value: new ${messageDef.definition.type}_Segment()`;
+          imports += `import { ${
+            messageDef.definition.type
+          }_Segment } from '../segments/${messageDef.definition.type.toLowerCase()}Segment';\n`;
+        }
+        if (messageDef.compoundDefinition)
+          messageProps += `,compoundDefinition:  ${JSON.stringify(messageDef.compoundDefinition)}`;
+        messageProps += `};\n`;
       } else messageProps += `public ${message[0]}:string = '${message[1].value}';\n`;
     });
     return ClassTemplate.message(message.name, messageProps, imports, message.description);
