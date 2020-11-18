@@ -3,14 +3,14 @@ import Hl7IMessage from "@/lib/types/hl7IMessage";
 import Hl7IFields from "@/lib/types/hl7IFields";
 import Hl7IField from "@/lib/types/hl7IField";
 import Hl7 from "@/lib/types/hl7";
-import Hl7ISegmentDefinition from "@/lib/types/hl7ISegmentDefinition";
 import Hl7IFieldDefinition from "@/lib/types/hl7FieldDefinition";
+import Hl7IMessageDefinition from "@/lib/types/hl7IMessageDefinition";
 
 export default class Hl7Types {
   public static init(template: Hl7Defintion): Hl7 {
+    const fields = Object.entries(template.segments).map(Hl7Types.initFieldDefinition);
     const segments: Hl7ISegment[] = Object.entries(template.segments).map(Hl7Types.initSegment);
     const messages = Object.entries(template.messages).map(Hl7Types.initMessage);
-    const fields = Object.entries(template.segments).map(Hl7Types.initFieldDefinition);
     return new Hl7(messages, segments, fields);
   }
 
@@ -19,36 +19,52 @@ export default class Hl7Types {
       name: message[1].name,
       description: message[1].desc.replace(/['"]/g, ""),
     };
-    const segments = Hl7Types.retrieveSegments(message[1].segments.segments);
+    const segments = Hl7Types.initMessageDefinitions(message[1].segments.segments);
     segments.forEach((segment) => {
       initMessage = Hl7Types.addMessageProp(initMessage, segment);
     });
     return initMessage;
   }
 
-  private static retrieveSegments(segments: SegmentDefintion[]): Hl7ISegmentDefinition[] {
-    const initSegments: Hl7ISegmentDefinition[] = [];
+  private static initMessageDefinitions(segments: SegmentDefintion[]): Hl7IMessageDefinition[] {
+    let initMessageDefinition: Hl7IMessageDefinition[] = [];
     segments.forEach((segment) => {
-      const initSegment = Hl7Types.retrieveSegment(segment);
-      if (initSegment) initSegments.push(initSegment);
+      initMessageDefinition = Hl7Types.initMessageDefinition(initMessageDefinition, segment);
     });
-    return initSegments;
+    return initMessageDefinition;
   }
 
-  private static retrieveSegment(segment: SegmentDefintion): Hl7ISegmentDefinition | undefined {
-    if (!segment.children) {
-      return {
+  private static initMessageDefinition(
+    messageDefinitions: Hl7IMessageDefinition[],
+    segment: SegmentDefintion,
+    compoundDef?: Hl7IMessageDefinition
+  ): Hl7IMessageDefinition[] {
+    const messageDef: Hl7IMessageDefinition = {
+      definition: {
         type: segment.name,
         isOptional: segment.min === 0,
         repeatable: segment.max === 0,
-      };
-    }
-    Hl7Types.retrieveSegment(segment.children);
+      },
+      isSegment: segment.children === undefined && segment.compounds === undefined,
+      compoundDefinition: compoundDef ? compoundDef.definition : undefined,
+    };
+    messageDefinitions.push(messageDef);
+    if (segment.children)
+      segment.children.map((childSegment) =>
+        Hl7Types.initMessageDefinition(messageDefinitions, childSegment, messageDef)
+      );
+
+    if (segment.compounds)
+      segment.compounds.map((childSegment) =>
+        Hl7Types.initMessageDefinition(messageDefinitions, childSegment, messageDef)
+      );
+
+    return messageDefinitions;
   }
 
-  private static addMessageProp(initMessage: Hl7IMessage, segment: Hl7ISegmentDefinition) {
-    return Object.defineProperty(initMessage, segment.type, {
-      value: { definition: segment },
+  private static addMessageProp(initMessage: Hl7IMessage, message: Hl7IMessageDefinition) {
+    return Object.defineProperty(initMessage, message.definition.type, {
+      value: message,
       writable: true,
     });
   }
