@@ -1,5 +1,6 @@
 import fs from "fs";
 import ClassTemplate from "@/template/classTemplate";
+import IndexTemplate from "@/template/indexFiles";
 import Hl7IFields from "@/lib/types/hl7IFields";
 import Hl7 from "@/lib/types/hl7";
 import Hl7IMessage from "@/lib/types/hl7IMessage";
@@ -15,23 +16,24 @@ export default class Hl7Model {
     hl7Types.messages.forEach(Hl7Model.createMessage);
     hl7Types.segments.forEach(Hl7Model.createSegment);
     hl7Types.fields.forEach(Hl7Model.createFields);
+    IndexTemplate.createVersionIndex(Hl7Model.versionDirectory, version, hl7Types);
   }
 
   private static createMessage(message: Hl7IMessage): void {
     const content = Hl7Model.buildMessage(message);
-    Hl7Model.createFile("messages", `${message.name.toLowerCase()}Message`, content);
+    Hl7Model.createFile("messages", `${message.name.toLowerCase()}_Message`, content);
   }
 
   private static createSegment(segment: Hl7ISegment): void {
     const content = Hl7Model.buildSegment(segment);
-    Hl7Model.createFile("segments", `${segment.type.toLowerCase()}Segment`, content);
+    Hl7Model.createFile("segments", `${segment.type.toLowerCase()}_Segment`, content);
   }
 
   private static createFields(field: Hl7IFieldDefinition): void {
     const segmentType = field.segmentType;
     const fields = field.fields;
     const content: string = Hl7Model.buildFields(segmentType, fields);
-    Hl7Model.createFile("fields", `${segmentType.toLowerCase()}Fields`, content);
+    Hl7Model.createFile("fields", `${segmentType.toLowerCase()}_Fields`, content);
   }
 
   private static createFile(directory: string, fileName: string, fileContent: string) {
@@ -63,7 +65,7 @@ export default class Hl7Model {
           messageProps += `,value: new ${messageDef.definition.type}_Segment()`;
           imports += `import { ${
             messageDef.definition.type
-          }_Segment } from '../segments/${messageDef.definition.type.toLowerCase()}Segment';\n`;
+          }_Segment } from '../segments/${messageDef.definition.type.toLowerCase()}_Segment';\n`;
         }
         if (messageDef.compoundDefinition)
           messageProps += `,compoundDefinition:  ${JSON.stringify(messageDef.compoundDefinition)}`;

@@ -7,7 +7,7 @@ export default class ClassTemplate {
   }
 
   public static segment(type: string, classProps: string, description?: string): string {
-    const imports = `import { Hl7Segment } from "../../../model/hl7Segment";\nimport { ${type}_Fields } from '../fields/${type.toLowerCase()}Fields';\n`;
+    const imports = `import { Hl7Segment } from "../../../model/hl7Segment";\nimport { ${type}_Fields } from '../fields/${type.toLowerCase()}_Fields';\n`;
     const docs = description ? `/**\n* ${description}\n*/` : "";
     const classDeclaration = `export class ${type}_Segment extends Hl7Segment`;
     return `${imports}\n${docs}\n${classDeclaration}{\n${classProps}\n}`;
