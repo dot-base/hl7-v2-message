@@ -62,7 +62,7 @@ export default class IndexFiles {
     const modelNamespace = `declare namespace hl7Model{\nexport { Hl7Message };\nexport { Hl7Segment };\nexport { Hl7Fields };\nexport { Hl7Field };\n}`;
     const versionImports = IndexFiles.versionImports(versions);
     const versionExport = IndexFiles.versionExports(versions);
-    const versionNamespace = `declare namespace Hl7 {\n${versionExport}}\n`;
+    const versionNamespace = `declare namespace HL7 {\n${versionExport}}\n`;
     const namespaceExport = `export {HL7 as default}\nexport {hl7Model};`;
     return `${modelImports}\n${versionImports}\n${modelNamespace}\n${versionNamespace}\n${namespaceExport}`;
   }
