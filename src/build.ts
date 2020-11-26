@@ -1,46 +1,74 @@
 import fs from "fs";
 import { definitions } from "hl7-dictionary";
 // import Hl7Model from "@/template/hl7Model";
-// import Hl7Types from "@/template/hl7Types";
-// import Hl7 from "@/lib/types/hl7";
+import Hl7Types from "@/template/hl7Types";
+import Hl7 from "@/lib/types/hl7";
 // import IndexFiles from "./template/indexFiles";
 import Handlebars from "handlebars";
 
-class Build {
+class LibraryBuilder {
+  // region public static methods
+  private static buildDirectory = "src/lib/build";
+  private static templateDirectory = "src/template";
   private static partialDirectory = "src/template/partials";
+  private static versions: string[] = Object.keys(definitions);
 
-  constructor() {
-    this.registerHelpers();
-    this.registerPartials();
-    this.loadTemplates();
+  private static createBuildDirectory() {
+    if (!fs.existsSync(this.buildDirectory)) fs.mkdirSync(this.buildDirectory);
   }
 
-  private registerHelpers() {
+  private static registerHelpers() {
     Handlebars.registerHelper("replaceDot", function (version: string) {
       return version.replace(/[.]/g, "_");
     });
   }
 
-  private registerPartials() {
-    const partialFileNames = fs.readdirSync(Build.partialDirectory);
+  private static registerPartials() {
+    const partialFileNames = fs.readdirSync(this.partialDirectory);
 
     for (const partialFileName of partialFileNames) {
-      const partial = fs.readFileSync(`${Build.partialDirectory}/${partialFileName}`).toString();
+      const partial = fs.readFileSync(`${this.partialDirectory}/${partialFileName}`).toString();
       const partialName = partialFileName.replace(".hbs", "");
       Handlebars.registerPartial(partialName, partial);
     }
   }
 
-  private loadTemplates() {
-    const templateString = fs.readFileSync("./src/template/globalIndex.hbs");
-    const template = Handlebars.compile(templateString.toString());
-    const versions: string[] = Object.keys(definitions);
-    const filledTemplate = template({ versions });
-    console.log(filledTemplate);
+  private static createGlobalIndex() {
+    const templateString = fs.readFileSync(`${this.templateDirectory}/globalIndex.hbs`).toString();
+    const template = Handlebars.compile(templateString);
+    const filledTemplate = template({ versions: this.versions });
+    fs.writeFileSync(`${this.buildDirectory}/globalIndex.hbs`, filledTemplate);
   }
+
+  private createVersionIndex(version: string) {
+    Hl7Types.init(definitions[version]);
+  }
+
+  public static build() {
+    this.registerHelpers();
+    this.registerPartials();
+    this.createBuildDirectory();
+    this.createGlobalIndex();
+  }
+  // endregion
+
+  // region private static methods
+  // endregion
+
+  // region public members
+  // endregion
+
+  // region private members
+  // endregion
+
+  // region public methods
+  // endregion
+
+  // region private methods
+  // endregion
 }
 
-new Build();
+LibraryBuilder.build();
 
 /**
  * Initializes HL7 Types based on stated version and
@@ -52,13 +80,13 @@ new Build();
 //   Hl7Model.createClassFiles(getBaseDirectory(), version, initTypes);
 // });
 
-// /**
-//  * Creates global index.ts based on stated versions and Hl7Model
-//  */
+/**
+ * Creates global index.ts based on stated versions and Hl7Model
+ */
 // IndexFiles.createGlobalIndex(getBaseDirectory(), versions);
 
 // function getBaseDirectory(): string {
-//   const baseDirectory = './src/lib/build';
+//   const baseDirectory = "./src/lib/build";
 //   if (!fs.existsSync(baseDirectory)) fs.mkdirSync(baseDirectory);
 //   return baseDirectory;
 // }
