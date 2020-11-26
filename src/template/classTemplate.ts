@@ -14,7 +14,7 @@ export default class ClassTemplate {
   }
 
   public static message(type: string, classProps: string, imports?: string, description?: string): string {
-    const classImports = `import { Hl7Message } from '../../../model/hl7Message';\nimport Hl7IMessageDefinition from '../../../types/hl7IMessageDefinition';\n${imports}`;
+    const classImports = `import { Hl7Message } from '../../../model/hl7Message';\nimport Hl7IMessageDefinition from '../../../types/hl7IMessageDefinition';\nimport Hl7ICompoundDefinition from '../../../types/hl7ICompoundDefinition';\n${imports}`;
     const docs = description ? `/**\n* ${description}\n*/` : "";
     const classDeclaration = `export class ${type}_Message extends Hl7Message`;
     return `${classImports}\n${docs}\n${classDeclaration}{\n${classProps}\n}`;
