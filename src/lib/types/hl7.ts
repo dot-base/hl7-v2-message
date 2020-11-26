@@ -1,6 +1,6 @@
 import Hl7IMessage from "../types/hl7IMessage";
 import Hl7ISegment from "../types/hl7ISegment";
-import Hl7IFieldDefinition from "../types/hl7FieldDefinition";
+import Hl7IFieldDefinition from "./hl7IFieldDefinition";
 
 export default class Hl7 {
   public messages: Hl7IMessage[];

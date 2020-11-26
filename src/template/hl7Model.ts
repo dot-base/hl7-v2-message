@@ -6,7 +6,7 @@ import Hl7 from "@/lib/types/hl7";
 import Hl7IMessage from "@/lib/types/hl7IMessage";
 import Hl7ISegment from "@/lib/types/hl7ISegment";
 import Hl7IMessageDefinition from "@/lib/types/hl7IMessageDefinition";
-import Hl7IFieldDefinition from "@/lib/types/hl7FieldDefinition";
+import Hl7IFieldDefinition from "@/lib/types/hl7IFieldDefinition";
 
 export default class Hl7Model {
   private static versionDirectory: string;
