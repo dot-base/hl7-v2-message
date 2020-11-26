@@ -3,10 +3,6 @@ import { Hl7Segment } from "../model/hl7Segment";
 import { Hl7Fields } from "../model/hl7Fields";
 import { Hl7Field } from "../model/hl7Field";
 
-{{#each versions}}
-{{> globalIndexVersionImport}}
-{{/each}}
-
 declare namespace hl7Model {
     export { Hl7Message };
     export { Hl7Segment };
@@ -14,11 +10,8 @@ declare namespace hl7Model {
     export { Hl7Field };
 }
 
-declare namespace HL7 {
-    {{#each versions}}
-    {{> globalIndexVersionExport}}
-    {{/each}}
-}
+export { hl7Model };
 
-export {HL7 as default}
-export {hl7Model};
+{{#each versions}}
+{{> globalIndexVersionExport}}
+{{/each}}
