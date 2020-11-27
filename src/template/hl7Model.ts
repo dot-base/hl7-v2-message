@@ -59,7 +59,7 @@ export default class Hl7Model {
       if (message[0] !== "name" && message[0] !== "description") {
         const messageDef: Hl7IMessageDefinition<Hl7ISegment> = message[1].value;
         if (messageDef.value) {
-          messageProps += `public ${message[0]}:Hl7IMessageDefinition<${
+          messageProps += `public ${messageDef.definition.name}:Hl7IMessageDefinition<${
             messageDef.definition.type
           }_Segment> = { definition: ${JSON.stringify(messageDef.definition)}`;
           messageProps += `,value: [new ${messageDef.definition.type}_Segment()]`;
@@ -67,7 +67,7 @@ export default class Hl7Model {
             messageDef.definition.type
           }_Segment } from '../segments/${messageDef.definition.type.toLowerCase()}_Segment';\n`;
         } else {
-          messageProps += `public ${message[0]}:Hl7ICompoundDefinition = { definition: ${JSON.stringify(
+          messageProps += `public ${messageDef.definition.name}:Hl7ICompoundDefinition = { definition: ${JSON.stringify(
             messageDef.definition
           )}`;
         }
