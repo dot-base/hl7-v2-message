@@ -1,4 +1,4 @@
-import Hl7IField from "../types/hl7IField";
+import Hl7IField from "../types/Hl7IField";
 
 export abstract class Hl7Field implements Hl7IField {
   public abstract index: number;
