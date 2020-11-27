@@ -1,7 +1,7 @@
-import Hl7IFields from "./hl7IFields";
+import Hl7IFields from "./Hl7IFields";
 
 export default interface Hl7ISegment {
   type: string;
-  children: Hl7IFields;
   description?: string;
+  fields: Hl7IFields;
 }

@@ -3,8 +3,8 @@ export default interface Hl7IField {
   identifier: string;
   description: string;
   length: number;
-  optional?: boolean;
-  repeatable?: number;
+  isOptional?: boolean;
+  isRepeatable?: number;
   value: string;
   subFields?: string[];
 }
