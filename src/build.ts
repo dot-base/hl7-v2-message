@@ -3,6 +3,9 @@ import { definitions } from "hl7-dictionary";
 // import Hl7Model from "@/template/hl7Model";
 import Hl7Types from "@/template/hl7Types";
 import Hl7 from "@/lib/types/hl7";
+import hl7IMessage from "@/lib/types/hl7IMessage";
+import hl7ISegment from "@/lib/types/hl7ISegment";
+import hl7FieldDefinition from "@/lib/types/hl7FieldDefinition";
 // import IndexFiles from "./template/indexFiles";
 import Handlebars from "handlebars";
 
@@ -17,9 +20,17 @@ class LibraryBuilder {
     if (!fs.existsSync(this.buildDirectory)) fs.mkdirSync(this.buildDirectory);
   }
 
+  private static createVersionDirectory(version: string) {
+    if (!fs.existsSync(`${this.buildDirectory}/${version}`)) fs.mkdirSync(`${this.buildDirectory}/${version}`);
+  }
+
   private static registerHelpers() {
     Handlebars.registerHelper("replaceDot", function (version: string) {
       return version.replace(/[.]/g, "_");
+    });
+
+    Handlebars.registerHelper("toLowerCase", function (text: string) {
+      return text.toLowerCase();
     });
   }
 
@@ -40,8 +51,11 @@ class LibraryBuilder {
     fs.writeFileSync(`${this.buildDirectory}/globalIndex.hbs`, filledTemplate);
   }
 
-  private createVersionIndex(version: string) {
-    Hl7Types.init(definitions[version]);
+  private static createVersionIndex(version: string, versionTypes: Hl7) {
+    const templateString = fs.readFileSync(`${this.templateDirectory}/versionIndex.hbs`).toString();
+    const template = Handlebars.compile(templateString);
+    const filledTemplate = template({ version, versionTypes });
+    fs.writeFileSync(`${this.buildDirectory}/${version}/globalIndex.hbs`, filledTemplate);
   }
 
   public static build() {
@@ -49,6 +63,16 @@ class LibraryBuilder {
     this.registerPartials();
     this.createBuildDirectory();
     this.createGlobalIndex();
+
+    for (const version of this.versions) {
+      this.createVersionDirectory(version);
+      const versionTypes = Hl7Types.init(definitions[version]);
+      for (const field of versionTypes.fields) {
+        field.
+      }
+      // TODO: Create class files
+      this.createVersionIndex(version, versionTypes);
+    }
   }
   // endregion
 
