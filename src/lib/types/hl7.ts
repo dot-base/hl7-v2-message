@@ -1,5 +1,5 @@
-import Hl7IMessage from "../types/hl7IMessage";
-import Hl7ISegment from "../types/hl7ISegment";
+import Hl7IMessage from "./hl7IMessage";
+import Hl7ISegment from "./hl7ISegment";
 import Hl7IFieldDefinition from "./hl7IFieldDefinition";
 
 export default class Hl7 {
