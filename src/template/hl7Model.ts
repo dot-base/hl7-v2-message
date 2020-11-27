@@ -72,7 +72,7 @@ export default class Hl7Model {
           )}`;
         }
         if (messageDef.compoundDefinition)
-          messageProps += `,compoundDefinition:  ${JSON.stringify(messageDef.compoundDefinition)}`;
+          messageProps += `,compoundDefinition:  this.${messageDef.compoundDefinition.definition.type}`;
         messageProps += `};\n`;
       } else messageProps += `public ${message[0]}:string = '${message[1].value}';\n`;
     });
