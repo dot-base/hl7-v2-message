@@ -1,13 +1,8 @@
 import fs from "fs";
-import { definitions } from "hl7-dictionary";
-// import Hl7Model from "@/template/hl7Model";
-import Hl7Types from "@/template/hl7Types";
-import Hl7 from "@/lib/types/hl7";
-import hl7IMessage from "@/lib/types/hl7IMessage";
-import hl7ISegment from "@/lib/types/hl7ISegment";
-import hl7FieldDefinition from "@/lib/types/hl7FieldDefinition";
-// import IndexFiles from "./template/indexFiles";
 import Handlebars from "handlebars";
+import { definitions } from "hl7-dictionary";
+import Hl7 from "@/lib/types/Hl7";
+import Hl7DictionaryConverter from "./template/Hl7DictionaryConverter";
 
 class LibraryBuilder {
   // region public static methods
@@ -66,10 +61,9 @@ class LibraryBuilder {
 
     for (const version of this.versions) {
       this.createVersionDirectory(version);
-      const versionTypes = Hl7Types.init(definitions[version]);
-      for (const field of versionTypes.fields) {
-        field.
-      }
+      const versionTypes = Hl7DictionaryConverter.init(definitions[version]);
+      console.log(versionTypes);
+      return;
       // TODO: Create class files
       this.createVersionIndex(version, versionTypes);
     }
@@ -93,24 +87,3 @@ class LibraryBuilder {
 }
 
 LibraryBuilder.build();
-
-/**
- * Initializes HL7 Types based on stated version and
- * creates class files in /model/<version> for HL7 messages, segments and fields
- */
-// const versions: string[] = Object.keys(definitions);
-// versions.forEach((version) => {
-//   const initTypes: Hl7 = Hl7Types.init(definitions[version]);
-//   Hl7Model.createClassFiles(getBaseDirectory(), version, initTypes);
-// });
-
-/**
- * Creates global index.ts based on stated versions and Hl7Model
- */
-// IndexFiles.createGlobalIndex(getBaseDirectory(), versions);
-
-// function getBaseDirectory(): string {
-//   const baseDirectory = "./src/lib/build";
-//   if (!fs.existsSync(baseDirectory)) fs.mkdirSync(baseDirectory);
-//   return baseDirectory;
-// }
