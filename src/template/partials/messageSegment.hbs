@@ -1,11 +1,13 @@
 {{#if isSegment}}
 public {{type}}: Hl7IMessageDefinition<{{type}}_Segment> = {
+    {{!-- TODO: strip definition or add it to field --}}
     definition: {
         type: "{{type}}",
         isOptional: {{isOptional}},
         repeatable: {{repeatable}}
     },
     {{#if compoundDefinition}}
+    {{!-- TODO: rename to parent / group? --}}
     compoundDefinition: {{compoundDefinition}},
     {{/if}}
     value: []
