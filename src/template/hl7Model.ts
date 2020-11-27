@@ -58,7 +58,7 @@ export default class Hl7Model {
     Object.entries(Object.getOwnPropertyDescriptors(message)).forEach((message) => {
       if (message[0] !== "name" && message[0] !== "description") {
         const messageDef: Hl7IMessageDefinition<Hl7ISegment> = message[1].value;
-        if ((messageDef.value = [])) {
+        if (messageDef.value) {
           messageProps += `public ${message[0]}:Hl7IMessageDefinition<${
             messageDef.definition.type
           }_Segment> = { definition: ${JSON.stringify(messageDef.definition)}`;
