@@ -42,9 +42,15 @@ export default class Hl7Types {
     segment: SegmentDefintion,
     compoundDef?: Hl7ICompoundDefinition
   ): Array<Hl7IMessageDefinition<Hl7ISegment> | Hl7ICompoundDefinition> {
+    const segmentName = segment.name ? segment.name.replace(/[\W]/g, "_") : "";
+    let compoundSegmentName = "";
+    if (compoundDef && segment.name) {
+      compoundSegmentName = `${compoundDef.definition.type}_${segmentName}`;
+    }
     const messageDef: Hl7IMessageDefinition<Hl7ISegment> | Hl7ICompoundDefinition = {
       definition: {
-        type: segment.name ? segment.name.replace(/[\W]/g, "_") : "",
+        name: compoundSegmentName ? compoundSegmentName : segmentName,
+        type: segmentName,
         isOptional: segment.min === 0,
         repeatable: segment.max === 0,
       },
