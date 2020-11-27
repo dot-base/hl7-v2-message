@@ -1,0 +1,24 @@
+{{#if isSegment}}
+public {{type}}: Hl7IMessageDefinition<{{type}}_Segment> = {
+    definition: {
+        type: "{{type}}",
+        isOptional: {{isOptional}},
+        repeatable: {{repeatable}}
+    },
+    {{#if compoundDefinition}}
+    compoundDefinition: {{compoundDefinition}},
+    {{/if}}
+    value: []
+};
+{{else}}
+public {{type}}: hl7ICompoundDefinition = {
+    definition: {
+        type: "{{type}}",
+        isOptional: {{isOptional}},
+        repeatable: {{repeatable}}
+    },
+    {{#if compoundDefinition}}
+    compoundDefinition: {{compoundDefinition}},
+    {{/if}}
+};
+{{/if}}
