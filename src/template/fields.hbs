@@ -1,0 +1,8 @@
+import { Hl7Fields, Hl7Field } from '../../../model';
+
+
+export class ACC_Fields extends Hl7Fields {
+    {{#each fields}}
+    {{> fieldsField}}
+    {{/each}}
+}
