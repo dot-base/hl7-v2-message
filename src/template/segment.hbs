@@ -7,5 +7,6 @@ import { {{type}}_Fields } from '../fields/{{toLowerCase type}}_Fields';
 export class {{type}}_Segment extends Hl7Segment {
     public type = "{{type}}"; 
     public description = "{{description}}"; 
+    {{!-- TODO: rename to fields or strip it like in message --}}
     public children: {{type}}_Fields = new {{type}}_Fields(); 
 }
