@@ -42,25 +42,20 @@ export default class Hl7Types {
     segment: SegmentDefintion,
     compoundDef?: Hl7ICompoundDefinition
   ): Array<Hl7IMessageDefinition<Hl7ISegment> | Hl7ICompoundDefinition> {
-    let messageDef: Hl7IMessageDefinition<Hl7ISegment> | Hl7ICompoundDefinition = {
+    const messageDef: Hl7IMessageDefinition<Hl7ISegment> | Hl7ICompoundDefinition = {
       definition: {
         type: segment.name ? segment.name.replace(/[\W]/g, "_") : "",
         isOptional: segment.min === 0,
         repeatable: segment.max === 0,
       },
-      value: [],
       compoundDefinition: compoundDef ? compoundDef : undefined,
     };
-    if (!segment.children && !segment.compounds)
-      messageDef = {
-        definition: {
-          type: segment.name ? segment.name.replace(/[\W]/g, "_") : "",
-          isOptional: segment.min === 0,
-          repeatable: segment.max === 0,
-        },
-        compoundDefinition: compoundDef ? compoundDef : undefined,
-      };
-
+    if (!segment.children && !segment.compounds) {
+      Object.defineProperty(messageDef, "value", {
+        value: [],
+        writable: true,
+      });
+    }
     messageDefinitions.push(messageDef);
     if (segment.children)
       segment.children.map((childSegment) =>
