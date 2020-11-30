@@ -1,5 +1,5 @@
-import Hl7IMessage from "../lib/types/Hl7IMessage";
-import Hl7ISegment from "../lib/types/Hl7ISegment";
+import Hl7IMessage from "@/static/types/Hl7IMessage";
+import Hl7ISegment from "@/static/types/Hl7ISegment";
 
 export default class Hl7 {
   public messages: Hl7IMessage[];
