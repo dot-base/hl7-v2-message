@@ -58,6 +58,11 @@ class LibraryBuilder {
         return seen.has(segment.type) ? false : seen.add(segment.type);
       });
     });
+
+    Handlebars.registerHelper("variableSafeString", function (str: string) {
+      if (!str) return str;
+      return str.replace(/,/g, "");
+    });
   }
 
   private static registerPartials() {
