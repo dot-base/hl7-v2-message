@@ -1,11 +1,8 @@
 {{#if isSegment}}
 public {{type}}: Hl7IMessageDefinition<{{type}}_Segment> = {
-    {{!-- TODO: strip definition or add it to field --}}
-    definition: {
-        type: "{{type}}",
-        isOptional: {{isOptional}},
-        repeatable: {{repeatable}}
-    },
+    type: "{{type}}",
+    isOptional: {{isOptional}},
+    isRepeatable: {{repeatable}},
     {{#if compoundDefinition}}
     {{!-- TODO: rename to parent / group? --}}
     compoundDefinition: {{compoundDefinition}},
@@ -14,11 +11,9 @@ public {{type}}: Hl7IMessageDefinition<{{type}}_Segment> = {
 };
 {{else}}
 public {{type}}: hl7ICompoundDefinition = {
-    definition: {
-        type: "{{type}}",
-        isOptional: {{isOptional}},
-        repeatable: {{repeatable}}
-    },
+    type: "{{type}}",
+    isOptional: {{isOptional}},
+    isRepeatable: {{repeatable}},
     {{#if compoundDefinition}}
     compoundDefinition: {{compoundDefinition}},
     {{/if}}
