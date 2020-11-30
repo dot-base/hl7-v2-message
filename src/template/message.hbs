@@ -2,7 +2,7 @@ import Hl7Message from '../../../model/hl7Message';
 import Hl7IMessageSegment from '../../../types/Hl7IMessageSegment';
 import Hl7IMessageCompound from '../../../types/Hl7IMessageCompound';
 
-{{#each (values segments)}}
+{{#each (unique (values segments))}}
 {{> messageSegmentImport}}
 {{/each}}
 

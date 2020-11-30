@@ -49,9 +49,14 @@ class LibraryBuilder {
     });
 
     Handlebars.registerHelper("values", function (object: any) {
-      //   console.log(object);
-      //   console.log("test");
       return Object.values(object);
+    });
+
+    Handlebars.registerHelper("unique", function (array: any[]) {
+      const seen = new Set();
+      return array.filter((segment) => {
+        return seen.has(segment.type) ? false : seen.add(segment.type);
+      });
     });
   }
 
