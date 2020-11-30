@@ -1,19 +1,19 @@
-import { Hl7Message } from '../../../model/hl7Message';
-import Hl7IMessageDefinition from '../../../types/hl7IMessageDefinition';
-import hl7ICompoundDefinition from '../../../types/hl7ICompoundDefinition';
+import Hl7Message from '../../../model/hl7Message';
+import Hl7IMessageSegment from '../../../types/Hl7IMessageSegment';
+import Hl7IMessageCompound from '../../../types/Hl7IMessageCompound';
 
-{{#each segments}}
+{{#each (values segments)}}
 {{> messageSegmentImport}}
 {{/each}}
 
 /**
-* {{message.description}}
+* {{description}}
 */
-export class {{message.name}}_Message extends Hl7Message {
-    public name = '{{message.name}}';
-    public description = '{{message.description}}';
+export default class {{name}}_Message extends Hl7Message {
+    public get name() { return '{{name}}'; }
+    public get description() { return '{{description}}'; }
     public segments = {
-        {{#each segments}}
+        {{#each (values segments)}}
         {{> messageSegment}}
         {{/each}}
     };

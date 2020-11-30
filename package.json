@@ -23,6 +23,8 @@
   },
   "dependencies": {},
   "devDependencies": {
+	"@types/fs-extra": "^9.0.4",
+	"fs-extra": "^9.0.1",
     "handlebars": "^4.7.6",
     "@types/node": "^14.14.2",
     "@typescript-eslint/eslint-plugin": "^3.7.0",
@@ -58,6 +60,8 @@
       "es6": true,
       "node": true
     },
-    "ignorePatterns": ["**/*.hbs"]
+    "ignorePatterns": [
+      "**/*.hbs"
+    ]
   }
 }
