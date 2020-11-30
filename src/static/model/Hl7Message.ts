@@ -7,6 +7,9 @@ export default abstract class Hl7Message implements Hl7IMessage {
   public abstract get name(): string;
   public abstract get description(): string;
   public abstract segments: {
-    [key: string]: Hl7IMessageSegment<Hl7ISegment> | Hl7IMessageCompound;
+    [key: string]: Hl7IMessageSegment<Hl7ISegment>;
+  };
+  public abstract compounds?: {
+    [key: string]: Hl7IMessageCompound;
   };
 }

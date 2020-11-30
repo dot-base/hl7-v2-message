@@ -1,12 +1,11 @@
-{{#if (isDefined value)}}
+{{#unless (isDefined value)}}
 {{> messageSegmentName segment=this}}: {
     name: "{{> messageSegmentName segment=this}}",
     type: "{{type}}",
     isOptional: {{isOptional}},
     isRepeatable: {{isRepeatable}},
     {{#if parentCompound}}
-    parentCompound: this.compounds.{{> messageSegmentName segment=parentCompound}},
+    parentCompound: this.segments.{{> messageSegmentName segment=parentCompound}},
 	{{/if}}
-	value: []
-} as Hl7IMessageSegment<{{type}}_Segment>,
-{{/if}}
+} as Hl7IMessageCompound,
+{{/unless}}
