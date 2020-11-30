@@ -1,8 +1,8 @@
-import { Hl7Fields, Hl7Field } from '../../../model';
+import Hl7Fields from '../../../model/Hl7Fields';
+import Hl7Field from '../../../model/Hl7Field';
 
-
-export class ACC_Fields extends Hl7Fields {
-    {{#each fields}}
+export default class {{type}}_Fields extends Hl7Fields {
+    {{#each  (values fields)}}
     {{> fieldsField}}
     {{/each}}
 }

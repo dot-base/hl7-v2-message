@@ -1,21 +1,11 @@
-{{#if isSegment}}
-public {{type}}: Hl7IMessageDefinition<{{type}}_Segment> = {
+{{type}}: {
     type: "{{type}}",
     isOptional: {{isOptional}},
-    isRepeatable: {{repeatable}},
-    {{#if compoundDefinition}}
-    {{!-- TODO: rename to parent / group? --}}
-    compoundDefinition: {{compoundDefinition}},
-    {{/if}}
-    value: []
-};
-{{else}}
-public {{type}}: hl7ICompoundDefinition = {
-    type: "{{type}}",
-    isOptional: {{isOptional}},
-    isRepeatable: {{repeatable}},
-    {{#if compoundDefinition}}
-    compoundDefinition: {{compoundDefinition}},
-    {{/if}}
-};
-{{/if}}
+    isRepeatable: {{isRepeatable}},
+    {{#if parentCompound}}
+    parentCompound: this.segments.{{parentCompound.type}},
+	{{/if}}
+	{{#if (isDefined value)}}
+	value: []
+	{{/if}}
+} as {{#if (isDefined value)}}Hl7IMessageSegment<{{type}}_Segment>{{else}}Hl7IMessageCompound{{/if}},
