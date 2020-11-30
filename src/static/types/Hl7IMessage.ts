@@ -6,6 +6,9 @@ export default interface Hl7IMessage {
   name: string;
   description: string;
   segments: {
-    [key: string]: Hl7IMessageSegment<Hl7ISegment> | Hl7IMessageCompound;
+    [key: string]: Hl7IMessageSegment<Hl7ISegment>;
+  };
+  compounds?: {
+    [key: string]: Hl7IMessageCompound;
   };
 }
