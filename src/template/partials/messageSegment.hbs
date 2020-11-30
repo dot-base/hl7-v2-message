@@ -1,9 +1,9 @@
-{{#if parentCompound}}{{> messageSegmentNamePrefix segment=parentCompound}}{{/if}}{{type}}: {
+{{> messageSegmentName segment=this}}: {
     type: "{{type}}",
     isOptional: {{isOptional}},
     isRepeatable: {{isRepeatable}},
     {{#if parentCompound}}
-    parentCompound: this.segments.{{parentCompound.type}},
+    parentCompound: this.segments.{{> messageSegmentName segment=parentCompound}},
 	{{/if}}
 	{{#if (isDefined value)}}
 	value: []
