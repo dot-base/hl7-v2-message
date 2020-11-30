@@ -1,4 +1,4 @@
-{{type}}: {
+{{#if parentCompound}}{{> messageSegmentNamePrefix segment=parentCompound}}{{/if}}{{type}}: {
     type: "{{type}}",
     isOptional: {{isOptional}},
     isRepeatable: {{isRepeatable}},
