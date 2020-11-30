@@ -5,9 +5,7 @@ public {{identifier}}: Hl7Field = {
 	index: {{index}},
 	identifier: "{{identifier}}",
 	description: "{{description}}",
-	{{#if (isDefined length)}}
-	length: {{length}},
-	{{/if}}
+	length: {{#if (isDefined length)}}{{length}},{{else}}undefined,{{/if}}
 	isOptional: {{isOptional}},
 	isRepeatable: {{isRepeatable}},
 	value: "{{value}}",
