@@ -12,8 +12,9 @@ import hl7ICompoundDefinition from '../../../types/hl7ICompoundDefinition';
 export class {{message.name}}_Message extends Hl7Message {
     public name = '{{message.name}}';
     public description = '{{message.description}}';
-    
-    {{#each segments}}
-    {{> messageSegment}}
-    {{/each}}
+    public segments = {
+        {{#each segments}}
+        {{> messageSegment}}
+        {{/each}}
+    };
 }

@@ -1,4 +1,4 @@
-import Hl7 from "@/lib/types/Hl7";
+import Hl7 from "@/utils/Hl7";
 import Hl7IMessage from "@/lib/types/Hl7IMessage";
 import Hl7ISegment from "@/lib/types/Hl7ISegment";
 import Hl7IField from "@/lib/types/Hl7IField";

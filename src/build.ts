@@ -1,8 +1,8 @@
 import fs from "fs";
 import Handlebars from "handlebars";
 import { definitions } from "hl7-dictionary";
-import Hl7 from "@/lib/types/Hl7";
-import Hl7DictionaryConverter from "./template/Hl7DictionaryConverter";
+import Hl7 from "@/utils/Hl7";
+import Hl7DictionaryConverter from "./template/Hl7DictionaryParser";
 
 class LibraryBuilder {
   // region public static methods
@@ -62,10 +62,10 @@ class LibraryBuilder {
     for (const version of this.versions) {
       this.createVersionDirectory(version);
       const versionTypes = Hl7DictionaryConverter.init(definitions[version]);
-      console.log(versionTypes);
+      this.createVersionIndex(version, versionTypes);
+      
       return;
       // TODO: Create class files
-      this.createVersionIndex(version, versionTypes);
     }
   }
   // endregion
