@@ -10,24 +10,22 @@ export default class FieldParser {
     }
     return FieldParser.setFieldValues(segment, rawSegment);
   }
-  
+
   private static setFieldValues<T extends Hl7ISegment>(segment: T, rawSegment: RawSegment): T {
-    rawSegment.fields.forEach((value, index) =>
-      segment = FieldParser.setFieldValue(segment,value,index)
-    );
+    rawSegment.fields.forEach((value, index) => (segment = FieldParser.setFieldValue(segment, value, index)));
     return segment;
   }
 
-  private static setFieldValue<T extends Hl7ISegment>(segment: T, rawValue: string, index:number):T{
+  private static setFieldValue<T extends Hl7ISegment>(segment: T, rawValue: string, index: number): T {
     Object.entries(segment.fields).find((field) => {
       if (field[1].index === index) field[1].value = rawValue;
-    })
+    });
     return segment;
   }
 
-  private static validateFieldLength(segmentFields:Hl7IFields, rawSegmentFields:string[]):boolean{
-    if(Object.entries(segmentFields).length && rawSegmentFields.length !== Object.entries(segmentFields).length)
-    return false;
-    return true
+  private static validateFieldLength(segmentFields: Hl7IFields, rawSegmentFields: string[]): boolean {
+    if (Object.entries(segmentFields).length && rawSegmentFields.length !== Object.entries(segmentFields).length)
+      return false;
+    return true;
   }
 }

@@ -10,7 +10,7 @@ export interface RawSegment {
 
 //TODO: add versioned Parser dynamically on build via handlebar template
 export default class Hl7Parser {
-  public static parse(rawMessage: string): Hl7Message{
+  public static parse(rawMessage: string): Hl7Message {
     const rawSegments: RawSegment[] = Hl7Parser.splitSegments(rawMessage);
     const mshSegment: MSH_Segment = Hl7Parser.getMessageHeader(rawSegments);
     const messageType: string = Hl7Parser.getMessageType(mshSegment);

@@ -9,7 +9,11 @@ import { RawSegment } from "./hl7Parser";
 import SegmentParser from "./segmentParser";
 
 export default class MessageParser {
-  public static initMessageSegments(messageType: string, mshSegment: MSH_Segment, rawSegments: RawSegment[]):Hl7Message {
+  public static initMessageSegments(
+    messageType: string,
+    mshSegment: MSH_Segment,
+    rawSegments: RawSegment[]
+  ): Hl7Message {
     if (messageType.includes("ADT_A01"))
       return SegmentParser.initMessageSegments(new ADT_A01_Message(), mshSegment, rawSegments) as ADT_A01_Message;
     if (messageType.includes("ADT_A02"))
