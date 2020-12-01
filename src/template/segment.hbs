@@ -5,7 +5,7 @@ import {{type}}_Fields from '../fields/{{type}}_Fields';
 * {{description}}
 */
 export default class {{type}}_Segment extends Hl7Segment {
-	public get type() { return '{{type}}'; }
-	public get description() { return '{{description}}'; }
+	public get type(): string { return '{{type}}'; }
+	public get description(): string { return '{{description}}'; }
     public fields: {{type}}_Fields = new {{type}}_Fields(); 
 }
