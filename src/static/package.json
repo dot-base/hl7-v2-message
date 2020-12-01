@@ -12,5 +12,9 @@
     "Level",
     "Seven",
     "FHIR"
-  ]
+  ],
+  "scripts": {
+    "start": "npm run test",
+    "test": "node -r tsconfig-paths/register -r ts-node/register parser/parse.ts"
+  }
 }
