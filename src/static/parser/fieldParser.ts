@@ -1,5 +1,4 @@
 import Hl7IFields from "../types/Hl7IFields";
-import Hl7IMessageSegment from "../types/Hl7IMessageSegment";
 import Hl7ISegment from "../types/Hl7ISegment";
 import { RawSegment } from "./hl7Parser";
 

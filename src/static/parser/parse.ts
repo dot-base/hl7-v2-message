@@ -1,7 +1,7 @@
 import Hl7Parser from "./hl7Parser";
 
 export default class TestParser {
-  public static parse(message: string) {
+  public static parse(message: string): void {
     const parsed = Hl7Parser.parse(message);
     console.log(JSON.stringify(parsed));
   }
