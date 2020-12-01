@@ -21,7 +21,7 @@ export default class MessageParser {
     if (messageType.includes("ADT_A03"))
       return SegmentParser.initMessageSegments(new ADT_A03_Message(), mshSegment, rawSegments) as ADT_A03_Message;
     if (messageType.includes("MDM_T02"))
-      return SegmentParser.initMessageSegments(new MDM_T02_Message(), mshSegment, rawSegments) as ADT_A03_Message;
+      return SegmentParser.initMessageSegments(new MDM_T02_Message(), mshSegment, rawSegments) as MDM_T02_Message;
     //TODO: add all types for specific version on build
     throw Error(`Unknown message type ${messageType}`);
   }
