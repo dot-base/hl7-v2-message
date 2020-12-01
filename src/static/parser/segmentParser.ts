@@ -1,8 +1,6 @@
-import EVN_Segment from "../lib/2.5/segment/EVN_Segment";
+
 import MSH_Segment from "../lib/2.5/segment/MSH_Segment";
-import PID_Segment from "../lib/2.5/segment/PID_Segment";
-import PV1_Segment from "../lib/2.5/segment/PV1_Segment";
-import TXA_Segment from "../lib/2.5/segment/TXA_Segment";
+import Utils from "../lib/2.5/utils";
 import Hl7Message from "../model/Hl7Message";
 import Hl7Segment from "../model/Hl7Segment";
 import Hl7IMessageCompound from "../types/Hl7IMessageCompound";
@@ -41,21 +39,11 @@ export default class SegmentParser {
   private static setSegmentValue<T extends Hl7Message>(message: T, rawSegment: RawSegment): T {
     Object.entries(message.segments).find((segment) => {
       if (segment[1].name === rawSegment.type) {
-        //TODO: Alternatively init Segments by type in lib in segment[1].value[0] (several, if repeatable)
-        const initSegment: Hl7Segment = SegmentParser.initSegmentByType(segment[1].type);
+        const initSegment: Hl7Segment = Utils.getSegment(segment[1].type);
         segment[1].value[0] = FieldParser.initSegmentFields(initSegment, rawSegment);
       }
     });
     return message;
-  }
-
-  //TODO: generate for all types via template
-  private static initSegmentByType(segmentType: string): Hl7Segment {
-    if (segmentType === "EVN") return new EVN_Segment();
-    if (segmentType === "PID") return new PID_Segment();
-    if (segmentType === "PV1") return new PV1_Segment();
-    if (segmentType === "TXA") return new TXA_Segment();
-    throw new Error(`Unknown segment type not ${segmentType}`);
   }
 
   private static setMessageHeader<T extends Hl7Message>(message: T, mshSegment: MSH_Segment): T {
