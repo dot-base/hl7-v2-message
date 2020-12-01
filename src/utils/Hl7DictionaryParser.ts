@@ -22,6 +22,7 @@ export default class Hl7DictionaryConverter {
       name: hl7DictionaryMessage.name,
       description: hl7DictionaryMessage.desc,
       segments: {},
+      compounds: {},
     };
     Hl7DictionaryConverter.addMessageSegments(message, hl7DictionaryMessage.segments.segments);
     return message;
