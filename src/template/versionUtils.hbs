@@ -1,0 +1,14 @@
+import Hl7Segment from '../../model/Hl7Segment';
+
+{{#each (values versionTypes.segments)}}
+{{> versionIndexTypeImport name=type type="Segment"}}
+{{/each}}
+
+export default class Utils {
+    public static getSegment(segmentType: string): Hl7Segment {
+        {{#each (values versionTypes.segments)}}
+        {{> versionUtilsInitType name=type type="Segment"}}
+        {{/each}}
+        throw new Error(`Unknown segment type not ${segmentType}`);
+    }
+}
