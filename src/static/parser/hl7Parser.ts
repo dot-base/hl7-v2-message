@@ -1,5 +1,5 @@
-import MSH_Segment from "../lib/2.5/segment/MSH_Segment";
 import Hl7Message from "../model/Hl7Message";
+import MSH_Segment from "../lib/2.5/segment/MSH_Segment";
 import FieldParser from "./fieldParser";
 import MessageParser from "./messageParser";
 

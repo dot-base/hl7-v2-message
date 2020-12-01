@@ -12,6 +12,11 @@ import Hl7IMessageCompound from '../../../types/Hl7IMessageCompound';
 export default class {{name}}_Message extends Hl7Message {
     public get name(): string { return '{{name}}'; }
     public get description(): string { return '{{description}}'; }
+    public compounds = {
+        {{#each (values segments)}}
+        {{> messageCompound}}
+        {{/each}}
+    };
     public segments = {
         {{#each (values segments)}}
         {{> messageSegment}}
