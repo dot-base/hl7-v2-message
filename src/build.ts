@@ -89,6 +89,13 @@ class LibraryBuilder {
     fs.writeFileSync(`${this.libDirectory}/${version}/index.ts`, filledTemplate);
   }
 
+  private static createUtils(version: string, versionTypes: Hl7) {
+    const templateString = fs.readFileSync(`${this.templateDirectory}/versionUtils.hbs`).toString();
+    const template = Handlebars.compile(templateString);
+    const filledTemplate = template({ version, versionTypes });
+    fs.writeFileSync(`${this.libDirectory}/${version}/utils.ts`, filledTemplate);
+  }
+
   private static createMessages(version: string, versionTypes: Hl7) {
     const templateString = fs.readFileSync(`${this.templateDirectory}/message.hbs`).toString();
     const template = Handlebars.compile(templateString);
@@ -129,6 +136,7 @@ class LibraryBuilder {
       this.createVersionDirectory(version);
       const versionTypes = Hl7DictionaryConverter.init(definitions[version]);
       this.createVersionIndex(version, versionTypes);
+      this.createUtils(version, versionTypes);
       this.createMessages(version, versionTypes);
       this.createSegments(version, versionTypes);
       this.createFields(version, versionTypes);
