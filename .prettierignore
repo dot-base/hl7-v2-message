@@ -1,1 +1,2 @@
 *.hbs
+"src/static/parser/*ts"
