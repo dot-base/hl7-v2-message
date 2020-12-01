@@ -3,5 +3,5 @@ export default interface Hl7IMessageCompound {
   name: string;
   isOptional: boolean;
   isRepeatable: boolean;
-  parentCompound?: Hl7IMessageCompound;
+  parentCompound?: Hl7IMessageCompound | string;
 }

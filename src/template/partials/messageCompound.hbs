@@ -5,7 +5,7 @@
     isOptional: {{isOptional}},
     isRepeatable: {{isRepeatable}},
     {{#if parentCompound}}
-    parentCompound: this.segments.{{> messageSegmentName segment=parentCompound}},
+    parentCompound: "{{> messageSegmentName segment=parentCompound}}",
 	{{/if}}
 } as Hl7IMessageCompound,
 {{/unless}}
