@@ -10,8 +10,8 @@ import Hl7IMessageCompound from '../../../types/Hl7IMessageCompound';
 * {{description}}
 */
 export default class {{name}}_Message extends Hl7Message {
-    public get name() { return '{{name}}'; }
-    public get description() { return '{{description}}'; }
+    public get name(): string { return '{{name}}'; }
+    public get description(): string { return '{{description}}'; }
     public segments = {
         {{#each (values segments)}}
         {{> messageSegment}}
