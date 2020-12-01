@@ -5,6 +5,9 @@ import PV1_Segment from "../lib/2.5/segment/PV1_Segment";
 import TXA_Segment from "../lib/2.5/segment/TXA_Segment";
 import Hl7Message from "../model/Hl7Message";
 import Hl7Segment from "../model/Hl7Segment";
+import Hl7IMessageCompound from "../types/Hl7IMessageCompound";
+import Hl7IMessageSegment from "../types/Hl7IMessageSegment";
+import Hl7ISegment from "../types/Hl7ISegment";
 import FieldParser from "./fieldParser";
 import { RawSegment } from "./hl7Parser";
 
@@ -14,9 +17,11 @@ export default class SegmentParser {
     mshSegment: MSH_Segment,
     rawSegments: RawSegment[]
   ): T {
-    //if (!SegmentParser.validateSegments(message, rawSegments)) {
-    //throw Error(`Number of mandatory segments in raw message ${message.name} does not match required number of segments`);
-    //}
+    if (!SegmentParser.validateMandatorySegments(message, rawSegments)) {
+      throw Error(
+        `Number of mandatory segments in raw message ${message.name} does not match required number of segments`
+      );
+    }
     return SegmentParser.setSegmentValues(message, mshSegment, rawSegments);
   }
 
@@ -60,13 +65,35 @@ export default class SegmentParser {
     return message;
   }
 
-  private static validateSegments<T extends Hl7Message>(message: T, rawSegments: RawSegment[]): boolean {
-    //TODO: filter mandatory segments using compundDefinitions
-    const mandatorySegments = Object.entries(message.segments).map((segment) => {
-      if (segment[1].isOptional === false) return segment;
+  private static validateMandatorySegments<T extends Hl7Message>(message: T, rawSegments: RawSegment[]): boolean {
+    const mandatorySegments: string[] = SegmentParser.getMandatorySegments(message);
+    return mandatorySegments.every((segmentType) => {
+      return rawSegments.some((raw) => raw.type === segmentType);
     });
-    //TODO: validate by segmentType instead of length. Does each mandatory segment have a matching rawSegment
-    if (rawSegments.length < Object.entries(mandatorySegments).length) return false;
-    return true;
+  }
+
+  private static getMandatorySegments<T extends Hl7Message>(message: T): string[] {
+    const mandatorySegments: string[] = [];
+    Object.values(message.segments).forEach((segment) => {
+      if (SegmentParser.isMandatorySegment(segment)) mandatorySegments.push(segment.type);
+    });
+    return mandatorySegments;
+  }
+
+  private static isMandatorySegment(segment: Hl7IMessageSegment<Hl7ISegment>): boolean {
+    let isMandatory: boolean = segment.isOptional ? false : true;
+    if (isMandatory && segment.parentCompound) isMandatory = SegmentParser.isMandatoryCompound(segment.parentCompound);
+    return isMandatory;
+  }
+
+  private static isMandatoryCompound(compound: Hl7IMessageCompound): boolean {
+    const isMandatory: boolean = compound.isOptional ? false : true;
+    //TODO: nested compounds - compounds with parentCompounds
+    //if(compound.parentCompound){
+    //TODO: implement getCompoundByType(type:string):Hl7IMessageCompound{}
+    //const parentCompund : Hl7IMessageCompound = getCompoundByType(compound.parentCompound);
+    //isMandatory = SegmentParser.isMandatoryCompound(compound.parentCompound);
+    //}
+    return isMandatory;
   }
 }
