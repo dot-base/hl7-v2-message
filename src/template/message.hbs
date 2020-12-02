@@ -13,7 +13,7 @@ export default class {{name}}_Message extends Hl7Message {
     public get name(): string { return '{{name}}'; }
     public get description(): string { return '{{description}}'; }
     public compounds = {
-        {{#each (values segments)}}
+        {{#each (values compounds)}}
         {{> messageCompound}}
         {{/each}}
     };
