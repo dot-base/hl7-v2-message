@@ -62,25 +62,34 @@ export default class SegmentParser {
   private static getMandatorySegments<T extends Hl7Message>(message: T): string[] {
     const mandatorySegments: string[] = [];
     Object.values(message.segments).forEach((segment) => {
-      if (SegmentParser.isMandatorySegment(segment)) mandatorySegments.push(segment.type);
+      if (SegmentParser.isMandatorySegment(message, segment)) mandatorySegments.push(segment.type);
     });
     return mandatorySegments;
   }
 
-  private static isMandatorySegment(segment: Hl7IMessageSegment<Hl7ISegment>): boolean {
+  private static isMandatorySegment<T extends Hl7Message>(
+    message: T,
+    segment: Hl7IMessageSegment<Hl7ISegment>
+  ): boolean {
     let isMandatory: boolean = segment.isOptional ? false : true;
-    if (isMandatory && segment.parentCompound) isMandatory = SegmentParser.isMandatoryCompound(segment.parentCompound);
+    if (isMandatory && segment.parentCompound)
+      isMandatory = SegmentParser.isMandatoryCompound(message, segment.parentCompound);
     return isMandatory;
   }
 
-  private static isMandatoryCompound(compound: Hl7IMessageCompound): boolean {
+  private static isMandatoryCompound<T extends Hl7Message>(message: T, compound: Hl7IMessageCompound): boolean {
     const isMandatory: boolean = compound.isOptional ? false : true;
-    //TODO: nested compounds - compounds with parentCompounds
-    //if(compound.parentCompound){
-    //TODO: implement getCompoundByType(type:string):Hl7IMessageCompound{}
-    //const parentCompund : Hl7IMessageCompound = getCompoundByType(compound.parentCompound);
-    //isMandatory = SegmentParser.isMandatoryCompound(compound.parentCompound);
-    //}
-    return isMandatory;
+    if (isMandatory && compound.parentCompound) {
+      const parentCompound: Hl7IMessageCompound = SegmentParser.getCompound(message, compound.parentCompound);
+      return SegmentParser.isMandatoryCompound(message, parentCompound);
+    } else return isMandatory;
+  }
+
+  private static getCompound<T extends Hl7Message>(message: T, compoundName: string): Hl7IMessageCompound {
+    let compound:[string,Hl7IMessageCompound]|undefined;
+    if (message.compounds)
+      compound = Object.entries(message.compounds).find((compound) => compound[1].name === compoundName);
+    if (!compound) throw Error(`Message of type ${message.name} does not have a compound named ${compoundName}`);
+    return compound[1];
   }
 }
