@@ -1,7 +1,6 @@
 {{#unless (isDefined value)}}
-{{> messageSegmentName segment=this}}: {
-    name: "{{> messageSegmentName segment=this}}",
-    type: "{{type}}",
+{{name}}: {
+    name: "{{name}}",
     isOptional: {{isOptional}},
     isRepeatable: {{isRepeatable}},
     {{#if parentCompound}}

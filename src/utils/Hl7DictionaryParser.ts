@@ -24,33 +24,58 @@ export default class Hl7DictionaryConverter {
       segments: {},
       compounds: {},
     };
-    Hl7DictionaryConverter.addMessageSegments(message, hl7DictionaryMessage.segments.segments);
+    Hl7DictionaryConverter.addMessageElements(message, hl7DictionaryMessage.segments.segments);
     return message;
+  }
+
+  private static addMessageElements(
+    message: Hl7IMessage,
+    hl7DictionarySegments: SegmentDefintion[],
+    parentCompound?: Hl7IMessageCompound
+  ) {
+    for (const hl7DictionarySegment of hl7DictionarySegments) {
+      if (!hl7DictionarySegment.children && !hl7DictionarySegment.compounds)
+        Hl7DictionaryConverter.addMessageSegments(message, hl7DictionarySegment, parentCompound);
+      else Hl7DictionaryConverter.addMessageCompounds(message, hl7DictionarySegment, parentCompound);
+    }
   }
 
   private static addMessageSegments(
     message: Hl7IMessage,
-    hl7DictionarySegments: SegmentDefintion[],
-    parentCompound?: Hl7IMessageSegment<Hl7ISegment> | Hl7IMessageCompound
+    hl7DictionarySegment: SegmentDefintion,
+    parentCompound?: Hl7IMessageCompound
   ) {
-    for (const hl7DictionarySegment of hl7DictionarySegments) {
-      const messageSegmentName = Hl7DictionaryConverter.messageSegmentName(hl7DictionarySegment, parentCompound);
-      const messageSegment: any = Hl7DictionaryConverter.initMessageSegment(hl7DictionarySegment, parentCompound);
-      message.segments[messageSegmentName] = messageSegment;
+    const messageSegmentName = Hl7DictionaryConverter.messageSegmentName(hl7DictionarySegment, parentCompound);
+    const messageSegment: Hl7IMessageSegment<Hl7ISegment> = Hl7DictionaryConverter.initMessageSegment(
+      hl7DictionarySegment,
+      parentCompound
+    );
+    message.segments[messageSegmentName] = messageSegment;
+  }
 
-      if (hl7DictionarySegment.children)
-        Hl7DictionaryConverter.addMessageSegments(
-          message,
-          hl7DictionarySegment.children,
-          message.segments[messageSegmentName]
-        );
-      if (hl7DictionarySegment.compounds)
-        Hl7DictionaryConverter.addMessageSegments(
-          message,
-          hl7DictionarySegment.compounds,
-          message.segments[messageSegmentName]
-        );
-    }
+  private static addMessageCompounds(
+    message: Hl7IMessage,
+    hl7DictionarySegment: SegmentDefintion,
+    parentCompound?: Hl7IMessageCompound
+  ) {
+    const messageCompoundName = hl7DictionarySegment.name;
+    const messageCompound: Hl7IMessageCompound = Hl7DictionaryConverter.initMessageCompound(
+      hl7DictionarySegment,
+      parentCompound
+    );
+    message.compounds ? (message.compounds[messageCompoundName] = messageCompound) : messageCompound;
+    Hl7DictionaryConverter.addCompoundSegments(message, hl7DictionarySegment, messageCompound);
+  }
+
+  private static addCompoundSegments(
+    message: Hl7IMessage,
+    hl7DictionarySegment: SegmentDefintion,
+    messageCompound?: Hl7IMessageCompound
+  ) {
+    if (hl7DictionarySegment.children)
+      Hl7DictionaryConverter.addMessageElements(message, hl7DictionarySegment.children, messageCompound);
+    if (hl7DictionarySegment.compounds)
+      Hl7DictionaryConverter.addMessageElements(message, hl7DictionarySegment.compounds, messageCompound);
   }
 
   private static messageSegmentName(
@@ -64,19 +89,31 @@ export default class Hl7DictionaryConverter {
 
   private static initMessageSegment(
     hl7DictionarySegment: SegmentDefintion,
-    parentCompound?: Hl7IMessageSegment<Hl7ISegment> | Hl7IMessageCompound
-  ): Hl7IMessage {
+    parentCompound?: Hl7IMessageCompound
+  ): Hl7IMessageSegment<Hl7ISegment> {
     const messageSegmentName = Hl7DictionaryConverter.messageSegmentName(hl7DictionarySegment, parentCompound);
-    const messageSegment: any = {
+    const messageSegment: Hl7IMessageSegment<Hl7ISegment> = {
       type: hl7DictionarySegment.name,
       name: messageSegmentName,
       isOptional: hl7DictionarySegment.min === 0,
       isRepeatable: hl7DictionarySegment.max === 0,
       parentCompound: parentCompound,
+      value: [],
     };
-    if (!hl7DictionarySegment.children && !hl7DictionarySegment.compounds) messageSegment.value = [];
-
     return messageSegment;
+  }
+
+  private static initMessageCompound(
+    hl7DictionarySegment: SegmentDefintion,
+    parentCompound?: Hl7IMessageCompound
+  ): Hl7IMessageCompound {
+    const messageCompound: Hl7IMessageCompound = {
+      name: hl7DictionarySegment.name,
+      isOptional: hl7DictionarySegment.min === 0,
+      isRepeatable: hl7DictionarySegment.max === 0,
+      parentCompound: parentCompound?.name,
+    };
+    return messageCompound;
   }
 
   //   SEGMENTS   //
