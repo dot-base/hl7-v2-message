@@ -125,7 +125,6 @@ export default class Hl7DictionaryParser {
       fields: {},
     };
     Hl7DictionaryParser.addSegmentFields(segment, hl7DictionarySegment);
-
     return segment;
   }
 
