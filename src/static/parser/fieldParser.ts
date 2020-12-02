@@ -16,9 +16,9 @@ export default class FieldParser {
   }
 
   private static setFieldValue<T extends Hl7ISegment>(segment: T, rawValue: string, index: number): T {
-    Object.entries(segment.fields).find((field) => {
-      if (field[1].index === index) field[1].value = rawValue;
-    });
+    for (const field of Object.values(segment.fields)) {
+      if (field.index === index) field.value = rawValue;
+    }
     return segment;
   }
 

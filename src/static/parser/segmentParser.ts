@@ -36,18 +36,17 @@ export default class SegmentParser {
   }
 
   private static setSegmentValue<T extends Hl7Message>(message: T, rawSegment: RawSegment): T {
-    Object.entries(message.segments).find((segment) => {
-      if (segment[1].name === rawSegment.type) {
-        const initSegment: Hl7Segment = Utils.getSegment(segment[1].type);
-        segment[1].value[0] = FieldParser.initSegmentFields(initSegment, rawSegment);
+    for (const segment of Object.values(message.segments)) {
+      if (segment.name === rawSegment.type) {
+        const initSegment: Hl7Segment = Utils.getSegment(segment.type);
+        segment.value[0] = FieldParser.initSegmentFields(initSegment, rawSegment);
       }
-    });
+    }
     return message;
   }
 
   private static setMessageHeader<T extends Hl7Message>(message: T, mshSegment: MSH_Segment): T {
-    for (const segment of Object.values(message.segments))
-      if (segment.name === "MSH") segment.value[0] = mshSegment;
+    for (const segment of Object.values(message.segments)) if (segment.name === "MSH") segment.value[0] = mshSegment;
     return message;
   }
 
@@ -68,25 +67,24 @@ export default class SegmentParser {
     message: T,
     segment: Hl7IMessageSegment<Hl7ISegment>
   ): boolean {
-    let isMandatory: boolean = segment.isOptional ? false : true;
-    if (isMandatory && segment.parentCompound)
-      isMandatory = SegmentParser.isMandatoryCompound(message, segment.parentCompound);
-    return isMandatory;
+    if (!segment.isOptional && segment.parentCompound)
+      return SegmentParser.isMandatoryCompound(message, segment.parentCompound);
+    return !segment.isOptional;
   }
 
   private static isMandatoryCompound<T extends Hl7Message>(message: T, compound: Hl7IMessageCompound): boolean {
-    const isMandatory: boolean = compound.isOptional ? false : true;
-    if (isMandatory && compound.parentCompound) {
+    if (!compound.isOptional && compound.parentCompound) {
       const parentCompound: Hl7IMessageCompound = SegmentParser.getCompound(message, compound.parentCompound);
       return SegmentParser.isMandatoryCompound(message, parentCompound);
-    } else return isMandatory;
+    }
+    return !compound.isOptional;
   }
 
   private static getCompound<T extends Hl7Message>(message: T, compoundName: string): Hl7IMessageCompound {
-    let compound: [string, Hl7IMessageCompound] | undefined;
+    let compound: Hl7IMessageCompound | undefined;
     if (message.compounds)
-      compound = Object.entries(message.compounds).find((compound) => compound[1].name === compoundName);
+      compound = Object.values(message.compounds).find((compound) => compound.name === compoundName);
     if (!compound) throw Error(`Message of type ${message.name} does not have a compound named ${compoundName}`);
-    return compound[1];
+    return compound;
   }
 }
