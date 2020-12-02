@@ -1,4 +1,3 @@
-{{#unless (isDefined value)}}
 {{name}}: {
     name: "{{name}}",
     isOptional: {{isOptional}},
@@ -7,4 +6,3 @@
     parentCompound: "{{> messageSegmentName segment=parentCompound}}",
 	{{/if}}
 } as Hl7IMessageCompound,
-{{/unless}}
