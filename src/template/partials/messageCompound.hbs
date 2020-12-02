@@ -1,8 +1,8 @@
-{{name}}: {
-    name: "{{name}}",
+{{variableSafeString name}}: {
+    name: "{{variableSafeString name}}",
     isOptional: {{isOptional}},
     isRepeatable: {{isRepeatable}},
     {{#if parentCompound}}
-    parentCompound: "{{> messageSegmentName segment=parentCompound}}",
+    parentCompound: "{{variableSafeString parentCompound}}",
 	{{/if}}
 } as Hl7IMessageCompound,
