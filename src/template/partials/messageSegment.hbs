@@ -1,10 +1,10 @@
-{{> messageSegmentName segment=this}}: {
-    name: "{{> messageSegmentName segment=this}}",
+{{variableSafeString name}}: {
+    name: "{{variableSafeString name}}",
     type: "{{type}}",
     isOptional: {{isOptional}},
     isRepeatable: {{isRepeatable}},
     {{#if parentCompound}}
-    parentCompound: this.compounds.{{> messageSegmentName segment=parentCompound}},
+    parentCompound: this.compounds.{{variableSafeString parentCompound.name}},
 	{{/if}}
 	value: []
 } as Hl7IMessageSegment<{{type}}_Segment>,
