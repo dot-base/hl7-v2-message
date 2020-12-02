@@ -13,7 +13,7 @@ export default class Hl7Parser {
   public static parse(rawMessage: string): Hl7Message {
     const rawSegments: RawSegment[] = Hl7Parser.splitSegments(rawMessage);
     const mshSegment: MSH_Segment = Hl7Parser.getMessageHeader(rawSegments);
-    const messageType: string = Hl7Parser.getMessageType(mshSegment);
+    const messageType: string = mshSegment.fields.MSH_9.value;
     return MessageParser.initMessageSegments(messageType, mshSegment, rawSegments);
   }
 
@@ -39,9 +39,5 @@ export default class Hl7Parser {
     const rawMSH = rawSegments.find((segment) => segment.type === "MSH");
     if (!rawMSH) throw Error("Missing mandatory segment of type MSH");
     return FieldParser.initSegmentFields(new MSH_Segment(), rawMSH) as MSH_Segment;
-  }
-
-  private static getMessageType(mshSegment: MSH_Segment): string {
-    return mshSegment.fields.MSH_9.value;
   }
 }

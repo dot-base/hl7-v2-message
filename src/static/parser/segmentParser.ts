@@ -1,6 +1,5 @@
-
-import MSH_Segment from "../lib/2.5/segment/MSH_Segment";
 import Utils from "../lib/2.5/utils";
+import MSH_Segment from "../lib/2.5/segment/MSH_Segment";
 import Hl7Message from "../model/Hl7Message";
 import Hl7Segment from "../model/Hl7Segment";
 import Hl7IMessageCompound from "../types/Hl7IMessageCompound";
