@@ -5,11 +5,11 @@ import Hl7IField from "@/static/types/Hl7IField";
 import Hl7IMessageSegment from "@/static/types/Hl7IMessageSegment";
 import Hl7IMessageCompound from "@/static/types/Hl7IMessageCompound";
 
-export default class Hl7DictionaryConverter {
+export default class Hl7DictionaryParser {
   public static init(hl7Dictionary: Hl7Defintion): Hl7 {
-    const messages = Object.values(hl7Dictionary.messages).map(Hl7DictionaryConverter.initMessage);
+    const messages = Object.values(hl7Dictionary.messages).map(Hl7DictionaryParser.initMessage);
     const segments = Object.entries(hl7Dictionary.segments).map(([type, segment]) =>
-      Hl7DictionaryConverter.initSegment(type, segment)
+      Hl7DictionaryParser.initSegment(type, segment)
     );
 
     return new Hl7(messages, segments);
@@ -24,7 +24,7 @@ export default class Hl7DictionaryConverter {
       segments: {},
       compounds: {},
     };
-    Hl7DictionaryConverter.addMessageElements(message, hl7DictionaryMessage.segments.segments);
+    Hl7DictionaryParser.addMessageElements(message, hl7DictionaryMessage.segments.segments);
     return message;
   }
 
@@ -35,8 +35,8 @@ export default class Hl7DictionaryConverter {
   ) {
     for (const hl7DictionarySegment of hl7DictionarySegments) {
       if (!hl7DictionarySegment.children && !hl7DictionarySegment.compounds)
-        Hl7DictionaryConverter.addMessageSegments(message, hl7DictionarySegment, parentCompound);
-      else Hl7DictionaryConverter.addMessageCompounds(message, hl7DictionarySegment, parentCompound);
+        Hl7DictionaryParser.addMessageSegments(message, hl7DictionarySegment, parentCompound);
+      else Hl7DictionaryParser.addMessageCompounds(message, hl7DictionarySegment, parentCompound);
     }
   }
 
@@ -45,8 +45,8 @@ export default class Hl7DictionaryConverter {
     hl7DictionarySegment: SegmentDefintion,
     parentCompound?: Hl7IMessageCompound
   ) {
-    const messageSegmentName = Hl7DictionaryConverter.messageSegmentName(hl7DictionarySegment, parentCompound);
-    const messageSegment: Hl7IMessageSegment<Hl7ISegment> = Hl7DictionaryConverter.initMessageSegment(
+    const messageSegmentName = Hl7DictionaryParser.messageSegmentName(hl7DictionarySegment, parentCompound);
+    const messageSegment: Hl7IMessageSegment<Hl7ISegment> = Hl7DictionaryParser.initMessageSegment(
       hl7DictionarySegment,
       parentCompound
     );
@@ -59,12 +59,12 @@ export default class Hl7DictionaryConverter {
     parentCompound?: Hl7IMessageCompound
   ) {
     const messageCompoundName = hl7DictionarySegment.name;
-    const messageCompound: Hl7IMessageCompound = Hl7DictionaryConverter.initMessageCompound(
+    const messageCompound: Hl7IMessageCompound = Hl7DictionaryParser.initMessageCompound(
       hl7DictionarySegment,
       parentCompound
     );
     message.compounds ? (message.compounds[messageCompoundName] = messageCompound) : messageCompound;
-    Hl7DictionaryConverter.addCompoundSegments(message, hl7DictionarySegment, messageCompound);
+    Hl7DictionaryParser.addCompoundSegments(message, hl7DictionarySegment, messageCompound);
   }
 
   private static addCompoundSegments(
@@ -73,9 +73,9 @@ export default class Hl7DictionaryConverter {
     messageCompound?: Hl7IMessageCompound
   ) {
     if (hl7DictionarySegment.children)
-      Hl7DictionaryConverter.addMessageElements(message, hl7DictionarySegment.children, messageCompound);
+      Hl7DictionaryParser.addMessageElements(message, hl7DictionarySegment.children, messageCompound);
     if (hl7DictionarySegment.compounds)
-      Hl7DictionaryConverter.addMessageElements(message, hl7DictionarySegment.compounds, messageCompound);
+      Hl7DictionaryParser.addMessageElements(message, hl7DictionarySegment.compounds, messageCompound);
   }
 
   private static messageSegmentName(
@@ -91,7 +91,7 @@ export default class Hl7DictionaryConverter {
     hl7DictionarySegment: SegmentDefintion,
     parentCompound?: Hl7IMessageCompound
   ): Hl7IMessageSegment<Hl7ISegment> {
-    const messageSegmentName = Hl7DictionaryConverter.messageSegmentName(hl7DictionarySegment, parentCompound);
+    const messageSegmentName = Hl7DictionaryParser.messageSegmentName(hl7DictionarySegment, parentCompound);
     const messageSegment: Hl7IMessageSegment<Hl7ISegment> = {
       type: hl7DictionarySegment.name,
       name: messageSegmentName,
@@ -124,7 +124,7 @@ export default class Hl7DictionaryConverter {
       description: hl7DictionarySegment.desc.replace(/['"]/g, ""),
       fields: {},
     };
-    Hl7DictionaryConverter.addSegmentFields(segment, hl7DictionarySegment);
+    Hl7DictionaryParser.addSegmentFields(segment, hl7DictionarySegment);
 
     return segment;
   }
@@ -133,7 +133,7 @@ export default class Hl7DictionaryConverter {
 
   private static addSegmentFields(segment: Hl7ISegment, hl7DictionarySegment: Segment) {
     for (const [fieldIndex, hl7DictionaryField] of hl7DictionarySegment.fields.entries()) {
-      const field: Hl7IField = Hl7DictionaryConverter.initField(segment.type, hl7DictionaryField, fieldIndex);
+      const field: Hl7IField = Hl7DictionaryParser.initField(segment.type, hl7DictionaryField, fieldIndex);
       segment.fields[field.identifier] = field;
     }
   }
