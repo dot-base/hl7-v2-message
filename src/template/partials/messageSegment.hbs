@@ -1,4 +1,3 @@
-{{#if (isDefined value)}}
 {{> messageSegmentName segment=this}}: {
     name: "{{> messageSegmentName segment=this}}",
     type: "{{type}}",
@@ -9,4 +8,3 @@
 	{{/if}}
 	value: []
 } as Hl7IMessageSegment<{{type}}_Segment>,
-{{/if}}
