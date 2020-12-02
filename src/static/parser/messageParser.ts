@@ -11,8 +11,8 @@ export default class MessageParser {
     rawSegments: RawSegment[]
   ): Hl7Message {
     const formattedType: string = MessageParser.getMessageType(messageType);
-    const initMessage: Hl7Message = Utils.getMessage(formattedType);
-    return SegmentParser.initMessageSegments(initMessage, mshSegment, rawSegments);
+    const message: Hl7Message = Utils.getMessage(formattedType);
+    return SegmentParser.initMessageSegments(message, mshSegment, rawSegments);
   }
 
   //TODO: considers specific subfield structure for different hl7 v2.x versions

@@ -46,17 +46,14 @@ export default class SegmentParser {
   }
 
   private static setMessageHeader<T extends Hl7Message>(message: T, mshSegment: MSH_Segment): T {
-    Object.entries(message.segments).find((segment) => {
-      if (segment[1].name === "MSH") segment[1].value[0] = mshSegment;
-    });
+    for (const segment of Object.values(message.segments))
+      if (segment.name === "MSH") segment.value[0] = mshSegment;
     return message;
   }
 
   private static validateMandatorySegments<T extends Hl7Message>(message: T, rawSegments: RawSegment[]): boolean {
     const mandatorySegments: string[] = SegmentParser.getMandatorySegments(message);
-    return mandatorySegments.every((segmentType) => {
-      return rawSegments.some((raw) => raw.type === segmentType);
-    });
+    return mandatorySegments.every((segmentType) => rawSegments.some((raw) => raw.type === segmentType));
   }
 
   private static getMandatorySegments<T extends Hl7Message>(message: T): string[] {
@@ -86,7 +83,7 @@ export default class SegmentParser {
   }
 
   private static getCompound<T extends Hl7Message>(message: T, compoundName: string): Hl7IMessageCompound {
-    let compound:[string,Hl7IMessageCompound]|undefined;
+    let compound: [string, Hl7IMessageCompound] | undefined;
     if (message.compounds)
       compound = Object.entries(message.compounds).find((compound) => compound[1].name === compoundName);
     if (!compound) throw Error(`Message of type ${message.name} does not have a compound named ${compoundName}`);
