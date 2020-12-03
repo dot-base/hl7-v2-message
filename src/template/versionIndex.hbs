@@ -7,9 +7,12 @@
 {{> versionIndexTypeImport name=type type="Fields"}}
 {{/each}}
 
+import { getMessage, getSegment } from "./utils"
+
 export default {
     messages: { {{#each versionTypes.messages}}{{> versionIndexTypeName name=name type="Message"}}{{/each}} },
     segments: { {{#each versionTypes.segments}}{{> versionIndexTypeName name=type type="Segment"}}{{/each}} },
-    fields: { {{#each versionTypes.segments}}{{> versionIndexTypeName name=type type="Fields"}}{{/each}} }
+    fields: { {{#each versionTypes.segments}}{{> versionIndexTypeName name=type type="Fields"}}{{/each}} },
+    utils: { getMessage, getSegment }
 };
 
