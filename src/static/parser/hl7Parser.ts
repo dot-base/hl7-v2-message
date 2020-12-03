@@ -1,15 +1,18 @@
-import Hl7Message from "../model/Hl7Message";
-import MSH_Segment from "../lib/2.5/segment/MSH_Segment";
-import FieldParser from "./fieldParser";
+import Hl7Message from "../../../model/Hl7Message";
 import MessageParser from "./messageParser";
+import FieldParser from "./fieldParser";
+import version from "..";
+
+type MSH_Segment = typeof version.segments.MSH_Segment.prototype;
 
 export interface RawSegment {
   type: string;
   fields: string[];
 }
 
-export default class Hl7Parser {
+export class Hl7Parser {
   public static parse(rawMessage: string): Hl7Message {
+    type MSH_Segment = typeof version.segments.MSH_Segment.prototype;
     const rawSegments: RawSegment[] = Hl7Parser.splitSegments(rawMessage);
     const mshSegment: MSH_Segment = Hl7Parser.getMessageHeader(rawSegments);
     const messageType: string = mshSegment.fields.MSH_9.value;
@@ -37,6 +40,8 @@ export default class Hl7Parser {
   private static getMessageHeader(rawSegments: RawSegment[]): MSH_Segment {
     const rawMSH = rawSegments.find((segment) => segment.type === "MSH");
     if (!rawMSH) throw Error("Missing mandatory segment of type MSH");
-    return FieldParser.initSegmentFields(new MSH_Segment(), rawMSH) as MSH_Segment;
+    return FieldParser.initSegmentFields(new version.segments.MSH_Segment(), rawMSH);
   }
 }
+
+export default Hl7Parser.parse;

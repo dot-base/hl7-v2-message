@@ -1,5 +1,5 @@
-import Hl7IFields from "../types/Hl7IFields";
-import Hl7ISegment from "../types/Hl7ISegment";
+import Hl7IFields from "../../../types/Hl7IFields";
+import Hl7ISegment from "../../../types/Hl7ISegment";
 import { RawSegment } from "./hl7Parser";
 
 export default class FieldParser {
