@@ -7,11 +7,11 @@ import Hl7IMessageCompound from "@/static/global/types/Hl7IMessageCompound";
 
 export default class Hl7DictionaryParser {
   public static init(hl7Dictionary: Hl7Defintion): Hl7 {
-    const messages = Object.values(hl7Dictionary.messages).map(Hl7DictionaryParser.initMessage);
-    const segments = Object.entries(hl7Dictionary.segments).map(([type, segment]) =>
+    const messages: Hl7IMessage[] = Object.values(hl7Dictionary.messages).map(Hl7DictionaryParser.initMessage);
+    const segments: Hl7ISegment[] = Object.entries(hl7Dictionary.segments).map(([type, segment]) =>
       Hl7DictionaryParser.initSegment(type, segment)
     );
-
+    Hl7DictionaryParser.validateMessages(messages, segments);
     return new Hl7(messages, segments);
   }
 
@@ -144,5 +144,23 @@ export default class Hl7DictionaryParser {
       isRepeatable: field.rep,
       value: "",
     };
+  }
+
+  // VALIDATION //
+
+  private static validateMessages(messages: Hl7IMessage[], segments: Hl7ISegment[]) {
+    messages.forEach((message) => {
+      Hl7DictionaryParser.removeInvalidSegments(message, segments);
+    });
+  }
+
+  private static removeInvalidSegments(message: Hl7IMessage, segments: Hl7ISegment[]) {
+    for (const messageSegment of Object.values(message.segments)) {
+      if (!Hl7DictionaryParser.isValidSegment(messageSegment, segments)) delete message.segments[messageSegment.name];
+    }
+  }
+
+  private static isValidSegment(messageSegment: Hl7IMessageSegment<Hl7ISegment>, segments: Hl7ISegment[]): boolean {
+    return segments.some((segment) => segment.type === messageSegment.type);
   }
 }
