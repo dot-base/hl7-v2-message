@@ -7,7 +7,7 @@
 {{> versionIndexTypeImport name=type type="Fields"}}
 {{/each}}
 
-export const v{{replaceDot version}} = {
+export default {
     messages: { {{#each versionTypes.messages}}{{> versionIndexTypeName name=name type="Message"}}{{/each}} },
     segments: { {{#each versionTypes.segments}}{{> versionIndexTypeName name=type type="Segment"}}{{/each}} },
     fields: { {{#each versionTypes.segments}}{{> versionIndexTypeName name=type type="Fields"}}{{/each}} }
