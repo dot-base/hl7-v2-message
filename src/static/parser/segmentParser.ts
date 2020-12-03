@@ -1,12 +1,13 @@
-import Utils from "../lib/2.5/utils";
-import MSH_Segment from "../lib/2.5/segment/MSH_Segment";
-import Hl7Message from "../model/Hl7Message";
-import Hl7Segment from "../model/Hl7Segment";
-import Hl7IMessageCompound from "../types/Hl7IMessageCompound";
-import Hl7IMessageSegment from "../types/Hl7IMessageSegment";
-import Hl7ISegment from "../types/Hl7ISegment";
-import FieldParser from "./fieldParser";
+import Hl7Message from "../../../model/Hl7Message";
+import Hl7Segment from "../../../model/Hl7Segment";
 import { RawSegment } from "./hl7Parser";
+import Hl7ISegment from "../../../types/Hl7ISegment";
+import Hl7IMessageCompound from "../../../types/Hl7IMessageCompound";
+import Hl7IMessageSegment from "../../../types/Hl7IMessageSegment";
+import FieldParser from "./fieldParser";
+import version from "..";
+
+type MSH_Segment = typeof version.segments.MSH_Segment.prototype;
 
 export default class SegmentParser {
   public static initMessageSegments<T extends Hl7Message>(
@@ -37,7 +38,7 @@ export default class SegmentParser {
   private static setSegmentValue<T extends Hl7Message>(message: T, rawSegment: RawSegment) {
     for (const segment of Object.values(message.segments)) {
       if (segment.name === rawSegment.type) {
-        const initSegment: Hl7Segment = Utils.getSegment(segment.type);
+        const initSegment: Hl7Segment = version.utils.getSegment(segment.type);
         FieldParser.initSegmentFields(initSegment, rawSegment);
         segment.value[0] = initSegment;
       }
