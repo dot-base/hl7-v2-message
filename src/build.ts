@@ -34,6 +34,8 @@ class LibraryBuilder {
       fs.mkdirSync(`${this.libDirectory}/${version}/segment`);
     if (!fs.existsSync(`${this.libDirectory}/${version}/fields`))
       fs.mkdirSync(`${this.libDirectory}/${version}/fields`);
+    if (!fs.existsSync(`${this.libDirectory}/${version}/parser`))
+      fsextra.copySync(this.staticVersionDirectory, `${this.libDirectory}/${version}/parser`);
   }
 
   private static registerHelpers() {
