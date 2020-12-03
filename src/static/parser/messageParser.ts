@@ -12,11 +12,12 @@ export default class MessageParser {
   ): Hl7Message {
     const formattedType: string = MessageParser.getMessageType(messageType);
     const message: Hl7Message = Utils.getMessage(formattedType);
-    return SegmentParser.initMessageSegments(message, mshSegment, rawSegments);
+    SegmentParser.initMessageSegments(message, mshSegment, rawSegments);
+    return message;
   }
 
-  //TODO: considers specific subfield structure for different hl7 v2.x versions
-  //Could be considered when using hdb template as well
+  //Edge Case: 'splitSubFields.length === 2'
+  //due to different structure of field 'MSH.9 Message Type' in earlier hl7v2-x versions
   private static getMessageType(messageType: string): string {
     const splitSubFields: string[] = messageType.split("^");
     if (splitSubFields.length === 2) return `${splitSubFields[0]}_${splitSubFields[1]}`;

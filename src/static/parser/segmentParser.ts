@@ -13,41 +13,39 @@ export default class SegmentParser {
     message: T,
     mshSegment: MSH_Segment,
     rawSegments: RawSegment[]
-  ): T {
+  ) {
     if (!SegmentParser.validateMandatorySegments(message, rawSegments)) {
       throw Error(
         `Number of mandatory segments in raw message ${message.name} does not match required number of segments`
       );
     }
-    return SegmentParser.setSegmentValues(message, mshSegment, rawSegments);
+    SegmentParser.setSegmentValues(message, mshSegment, rawSegments);
   }
 
   private static setSegmentValues<T extends Hl7Message>(
     message: T,
     mshSegment: MSH_Segment,
     rawSegments: RawSegment[]
-  ): T {
-    message = SegmentParser.setMessageHeader(message, mshSegment);
+  ) {
+    SegmentParser.setMessageHeader(message, mshSegment);
     rawSegments.shift();
     rawSegments.forEach((rawSegment) => {
-      message = SegmentParser.setSegmentValue(message, rawSegment);
+      SegmentParser.setSegmentValue(message, rawSegment);
     });
-    return message;
   }
 
-  private static setSegmentValue<T extends Hl7Message>(message: T, rawSegment: RawSegment): T {
+  private static setSegmentValue<T extends Hl7Message>(message: T, rawSegment: RawSegment) {
     for (const segment of Object.values(message.segments)) {
       if (segment.name === rawSegment.type) {
         const initSegment: Hl7Segment = Utils.getSegment(segment.type);
-        segment.value[0] = FieldParser.initSegmentFields(initSegment, rawSegment);
+        FieldParser.initSegmentFields(initSegment, rawSegment);
+        segment.value[0] = initSegment;
       }
     }
-    return message;
   }
 
-  private static setMessageHeader<T extends Hl7Message>(message: T, mshSegment: MSH_Segment): T {
+  private static setMessageHeader<T extends Hl7Message>(message: T, mshSegment: MSH_Segment) {
     for (const segment of Object.values(message.segments)) if (segment.name === "MSH") segment.value[0] = mshSegment;
-    return message;
   }
 
   private static validateMandatorySegments<T extends Hl7Message>(message: T, rawSegments: RawSegment[]): boolean {
