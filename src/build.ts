@@ -9,7 +9,8 @@ class LibraryBuilder {
   // region public static methods
   private static buildDirectory = "build";
   private static libDirectory = LibraryBuilder.buildDirectory + "/lib";
-  private static staticDirectory = "src/static";
+  private static staticGlobalDirectory = "src/static/global";
+  private static staticVersionDirectory = "src/static/version"
   private static templateDirectory = "src/template";
   private static partialDirectory = LibraryBuilder.templateDirectory + "/partials";
   private static versions: string[] = Object.keys(definitions);
@@ -22,7 +23,7 @@ class LibraryBuilder {
   }
 
   private static copyStaticFiles() {
-    fsextra.copySync(this.staticDirectory, this.buildDirectory);
+    fsextra.copySync(this.staticGlobalDirectory, this.buildDirectory);
   }
 
   private static createVersionDirectory(version: string) {
