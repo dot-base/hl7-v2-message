@@ -10,7 +10,7 @@ class LibraryBuilder {
   private static buildDirectory = "build";
   private static libDirectory = LibraryBuilder.buildDirectory + "/lib";
   private static staticGlobalDirectory = "src/static/global";
-  private static staticVersionDirectory = "src/static/version"
+  private static staticVersionDirectory = "src/static/version";
   private static templateDirectory = "src/template";
   private static partialDirectory = LibraryBuilder.templateDirectory + "/partials";
   private static versions: string[] = Object.keys(definitions);
