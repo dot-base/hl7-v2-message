@@ -89,9 +89,10 @@ export default class Hl7DictionaryParser {
     hl7DictionarySegment: SegmentDefintion,
     parentCompound?: Hl7IMessageCompound
   ): Hl7IMessageSegment<Hl7ISegment> {
+    const messageSegmentName = Hl7DictionaryParser.messageElementName(hl7DictionarySegment, parentCompound);
     const messageSegment: Hl7IMessageSegment<Hl7ISegment> = {
       type: hl7DictionarySegment.name,
-      name: Hl7DictionaryParser.messageElementName(hl7DictionarySegment, parentCompound),
+      name: messageSegmentName.replace(/[/]/g, "_"),
       isOptional: hl7DictionarySegment.min === 0,
       isRepeatable: hl7DictionarySegment.max === 0,
       parentCompound: parentCompound,
@@ -104,8 +105,9 @@ export default class Hl7DictionaryParser {
     hl7DictionarySegment: SegmentDefintion,
     parentCompound?: Hl7IMessageCompound
   ): Hl7IMessageCompound {
+    const messageCompoundName = Hl7DictionaryParser.messageElementName(hl7DictionarySegment, parentCompound);
     const messageCompound: Hl7IMessageCompound = {
-      name: Hl7DictionaryParser.messageElementName(hl7DictionarySegment, parentCompound),
+      name: messageCompoundName.replace(/[/]/g, "_"),
       isOptional: hl7DictionarySegment.min === 0,
       isRepeatable: hl7DictionarySegment.max === 0,
       parentCompound: parentCompound?.name,
