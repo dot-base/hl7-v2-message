@@ -1,8 +1,9 @@
-import Utils from "../lib/2.5/utils";
-import MSH_Segment from "../lib/2.5/segment/MSH_Segment";
-import Hl7Message from "../model/Hl7Message";
+import Hl7Message from "../../../model/Hl7Message";
 import { RawSegment } from "./hl7Parser";
 import SegmentParser from "./segmentParser";
+import version from "..";
+
+type MSH_Segment = typeof version.segments.MSH_Segment.prototype;
 
 export default class MessageParser {
   public static initMessageSegments(
@@ -11,7 +12,7 @@ export default class MessageParser {
     rawSegments: RawSegment[]
   ): Hl7Message {
     const formattedType: string = MessageParser.getMessageType(messageType);
-    const message: Hl7Message = Utils.getMessage(formattedType);
+    const message: Hl7Message = version.utils.getMessage(formattedType);
     SegmentParser.initMessageSegments(message, mshSegment, rawSegments);
     return message;
   }
