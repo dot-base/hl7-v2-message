@@ -14,7 +14,7 @@ export default class SegmentParser {
     message: T,
     mshSegment: MSH_Segment,
     rawSegments: RawSegment[]
-  ) {
+  ):void {
     if (!SegmentParser.validateMandatorySegments(message, rawSegments)) {
       throw Error(
         `Number of mandatory segments in raw message ${message.name} does not match required number of segments`
