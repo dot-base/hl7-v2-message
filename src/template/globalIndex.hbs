@@ -13,5 +13,9 @@ declare namespace Hl7Model {
 export { Hl7Model };
 
 {{#each versions}}
+{{> globalIndexVersionImport}}
+{{/each}}
+
+{{#each versions}}
 {{> globalIndexVersionExport}}
 {{/each}}
