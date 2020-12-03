@@ -1,9 +1,9 @@
 import Hl7 from "@/utils/Hl7";
-import Hl7IMessage from "@/static/types/Hl7IMessage";
-import Hl7ISegment from "@/static/types/Hl7ISegment";
-import Hl7IField from "@/static/types/Hl7IField";
-import Hl7IMessageSegment from "@/static/types/Hl7IMessageSegment";
-import Hl7IMessageCompound from "@/static/types/Hl7IMessageCompound";
+import Hl7IMessage from "@/static/global/types/Hl7IMessage";
+import Hl7ISegment from "@/static/global/types/Hl7ISegment";
+import Hl7IField from "@/static/global/types/Hl7IField";
+import Hl7IMessageSegment from "@/static/global/types/Hl7IMessageSegment";
+import Hl7IMessageCompound from "@/static/global/types/Hl7IMessageCompound";
 
 export default class Hl7DictionaryParser {
   public static init(hl7Dictionary: Hl7Defintion): Hl7 {
