@@ -3,23 +3,21 @@ import Hl7ISegment from "../types/Hl7ISegment";
 import { RawSegment } from "./hl7Parser";
 
 export default class FieldParser {
-  public static initSegmentFields<T extends Hl7ISegment>(segment: T, rawSegment: RawSegment): T {
+  public static initSegmentFields<T extends Hl7ISegment>(segment: T, rawSegment: RawSegment) {
     if (!FieldParser.validateFieldLength(segment.fields, rawSegment.fields)) {
       throw Error(`Number of fields in raw segment ${rawSegment.type} does not match required number of fields`);
     }
-    return FieldParser.setFieldValues(segment, rawSegment);
+    FieldParser.setFieldValues(segment, rawSegment);
   }
 
-  private static setFieldValues<T extends Hl7ISegment>(segment: T, rawSegment: RawSegment): T {
-    rawSegment.fields.forEach((value, index) => (segment = FieldParser.setFieldValue(segment, value, index)));
-    return segment;
+  private static setFieldValues<T extends Hl7ISegment>(segment: T, rawSegment: RawSegment) {
+    rawSegment.fields.forEach((value, index) => FieldParser.setFieldValue(segment, value, index));
   }
 
-  private static setFieldValue<T extends Hl7ISegment>(segment: T, rawValue: string, index: number): T {
+  private static setFieldValue<T extends Hl7ISegment>(segment: T, rawValue: string, index: number) {
     for (const field of Object.values(segment.fields)) {
       if (field.index === index) field.value = rawValue;
     }
-    return segment;
   }
 
   private static validateFieldLength(segmentFields: Hl7IFields, rawSegmentFields: string[]): boolean {
