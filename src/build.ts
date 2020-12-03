@@ -126,6 +126,16 @@ class LibraryBuilder {
     }
   }
 
+  private static createParser(version: string, versionTypes: Hl7) {
+    const templateString = fs.readFileSync(`${this.templateDirectory}/hl7Parser.hbs`).toString();
+    const template = Handlebars.compile(templateString);
+
+    for (const segment of versionTypes.segments.values()) {
+      const filledTemplate = template(segment);
+      fs.writeFileSync(`${this.libDirectory}/${version}/fields/${segment.type}_Fields.ts`, filledTemplate);
+    }
+  }
+
   public static build() {
     this.registerHelpers();
     this.registerPartials();
