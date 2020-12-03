@@ -8,20 +8,16 @@ import Hl7Segment from '../../model/Hl7Segment';
 {{#each (values versionTypes.segments)}}
 {{> versionUtilsTypeImport name=type type="Segment"}}
 {{/each}}
+export function getMessage(messageType: string): Hl7Message {
+    {{#each (values versionTypes.messages)}}
+    {{> versionUtilsInitType name=name type="Message"}}
+    {{/each}}
+    throw new Error(`Unknown message type ${messageType}`);
+}
 
-export default class Utils {
-
-    public static getMessage(messageType: string): Hl7Message {
-        {{#each (values versionTypes.messages)}}
-        {{> versionUtilsInitType name=name type="Message"}}
-        {{/each}}
-        throw new Error(`Unknown message type ${messageType}`);
-    }
-
-    public static getSegment(segmentType: string): Hl7Segment {
-        {{#each (values versionTypes.segments)}}
-        {{> versionUtilsInitType name=type type="Segment"}}
-        {{/each}}
-        throw new Error(`Unknown segment type ${segmentType}`);
-    }
+export function getSegment(segmentType: string): Hl7Segment {
+    {{#each (values versionTypes.segments)}}
+    {{> versionUtilsInitType name=type type="Segment"}}
+    {{/each}}
+    throw new Error(`Unknown segment type ${segmentType}`);
 }
