@@ -9,6 +9,9 @@ class LibraryBuilder {
   // region public static methods
   private static buildDirectory = "build";
   private static libDirectory = LibraryBuilder.buildDirectory + "/lib";
+  private static packageJson = "src/static/package.json";
+  private static readme = "README.md";
+  private static license = "LICENSE";
   private static staticGlobalDirectory = "src/static/global";
   private static staticVersionDirectory = "src/static/version";
   private static templateDirectory = "src/template";
@@ -23,6 +26,9 @@ class LibraryBuilder {
   }
 
   private static copyStaticFiles() {
+    fs.copyFileSync(this.packageJson, `${this.buildDirectory}/package.json`);
+    fs.copyFileSync(this.readme, `${this.buildDirectory}/README.md`);
+    fs.copyFileSync(this.license, `${this.buildDirectory}/LICENSE`);
     fsextra.copySync(this.staticGlobalDirectory, this.buildDirectory);
   }
 
