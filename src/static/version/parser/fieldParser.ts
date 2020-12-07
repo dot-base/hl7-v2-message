@@ -23,8 +23,18 @@ export default class FieldParser {
   }
 
   private static validateFieldLength(segmentFields: Hl7IFields, rawSegmentFields: string[]): boolean {
-    if (Object.entries(segmentFields).length && rawSegmentFields.length !== Object.entries(segmentFields).length)
+    const maxFields = Object.entries(segmentFields).length;
+    const minFields:number = FieldParser.getMandatoryFields(segmentFields)+1;
+    if (rawSegmentFields.length < minFields || rawSegmentFields.length > maxFields)
       return false;
     return true;
+  }
+
+  private static getMandatoryFields(segmentFields: Hl7IFields):number{
+    let minFieldIndex:number = 0;
+    for (const field of Object.values(segmentFields)) {
+      if(field.isOptional===false && field.index >= minFieldIndex) minFieldIndex=field.index;
+    }
+    return minFieldIndex;
   }
 }
