@@ -142,7 +142,7 @@ export default class Hl7DictionaryParser {
       identifier: `${segmentType}_${index + 1}`,
       description: field.desc.replace(/['"]/g, ""),
       length: field.len,
-      isOptional: field.opt === 1 ? true : false,
+      isOptional: field.opt === 1,
       isRepeatable: field.rep === 0,
       value: "",
     };
