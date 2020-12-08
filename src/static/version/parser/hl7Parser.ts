@@ -20,7 +20,7 @@ export class Hl7Parser {
   }
 
   private static splitSegments(rawMessage: string): RawSegment[] {
-    return rawMessage.split("\n").map((segment) => this.splitSegment(segment));
+    return rawMessage.split(/(\n|<cr>)/).map((segment) => this.splitSegment(segment));
   }
 
   private static splitSegment(rawSegment: string): RawSegment {
