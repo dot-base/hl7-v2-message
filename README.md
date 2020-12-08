@@ -6,7 +6,6 @@ Parses HL7 v2.x messages into typed javascript objects and makes them easily acc
 npm install @dotbase/hl7-v2-message
 ```
 
-
 ## How to use it
 ```ts
 import { v2_5 } from "@dotbase/hl7-v2-message"
@@ -34,5 +33,3 @@ console.log(patientName);
   value: 'Müller^Hans^^^^^L'
 }
 ```
-
-
