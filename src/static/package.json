@@ -15,9 +15,13 @@
   },
   "keywords": [
     "Hl7",
+    "v2.x",
+    "v2",
     "Health",
     "Level",
     "Seven",
-    "FHIR"
+    "FHIR",
+    "Parser",
+    "Types"
   ]
 }
