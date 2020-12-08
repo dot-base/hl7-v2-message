@@ -143,7 +143,7 @@ export default class Hl7DictionaryParser {
       description: field.desc.replace(/['"]/g, ""),
       length: field.len,
       isOptional: field.opt === 1 ? true : false,
-      isRepeatable: field.rep,
+      isRepeatable: field.rep === 0,
       value: "",
     };
   }
