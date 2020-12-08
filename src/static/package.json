@@ -1,5 +1,5 @@
 {
-  "name": "hl7-v2-message",
+  "name": "@dotbase/hl7-v2-message",
   "description": "Parses HL7 v2.x messages into typed javascript objects and makes them easily accessable.",
   "version": "1.0.0",
   "main": "build/index.ts",

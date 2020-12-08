@@ -3,13 +3,13 @@ Parses HL7 v2.x messages into typed javascript objects and makes them easily acc
 
 ## Installation
 ```sh
-npm install hl7-v2-message
+npm install @dotbase/hl7-v2-message
 ```
 
 
 ## How to use it
 ```ts
-import { v2_5 } from "hl7-v2-message"
+import { v2_5 } from "@dotbase/hl7-v2-message"
 
 type MDM_T02_Message = typeof v2_5.messages.MDM_T02_Message.prototype;
 
