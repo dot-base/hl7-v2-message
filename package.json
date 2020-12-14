@@ -1,7 +1,7 @@
 {
   "name": "hl7-v2.x-message",
   "description": "typescript based objects of HL7 v2.x messages",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "private": true,
   "main": "build/index.js",
   "homepage": "https://github.com/dot-base/hl7-v2-message",
