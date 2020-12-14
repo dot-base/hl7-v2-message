@@ -53,14 +53,17 @@ class LibraryBuilder {
       return text.toLowerCase();
     });
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
     Handlebars.registerHelper("isDefined", function (object: any) {
       return !!object;
     });
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
     Handlebars.registerHelper("values", function (object: any) {
       return Object.values(object);
     });
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
     Handlebars.registerHelper("unique", function (array: any[]) {
       const seen = new Set();
       return array.filter((segment) => {
