@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "./build",
+    "esModuleInterop": true,
+    "strict": true,
+    "module": "commonjs",
+    "target": "esnext",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
