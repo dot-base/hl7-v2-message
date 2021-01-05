@@ -28,4 +28,4 @@ jobs:
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
-          package: "./build/package.json"
+          package: "./build/build/package.json"
