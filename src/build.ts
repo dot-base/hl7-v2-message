@@ -9,7 +9,9 @@ class LibraryBuilder {
   // region public static methods
   private static buildDirectory = "build";
   private static libDirectory = LibraryBuilder.buildDirectory + "/lib";
+  private static publishDirectory = LibraryBuilder.buildDirectory + "/build";
   private static packageJson = "src/static/package.json";
+  private static tsConfigJson = "src/static/tsconfig.json";
   private static readme = "README.md";
   private static license = "LICENSE";
   private static staticGlobalDirectory = "src/static/global";
@@ -22,13 +24,15 @@ class LibraryBuilder {
     fsextra.removeSync(this.buildDirectory);
     if (!fs.existsSync(this.buildDirectory)) fs.mkdirSync(this.buildDirectory);
     if (!fs.existsSync(this.libDirectory)) fs.mkdirSync(this.libDirectory);
+	if (!fs.existsSync(this.publishDirectory)) fs.mkdirSync(this.publishDirectory);
     this.copyStaticFiles();
   }
 
   private static copyStaticFiles() {
-    fs.copyFileSync(this.packageJson, `${this.buildDirectory}/package.json`);
-    fs.copyFileSync(this.readme, `${this.buildDirectory}/README.md`);
-    fs.copyFileSync(this.license, `${this.buildDirectory}/LICENSE`);
+	fs.copyFileSync(this.tsConfigJson, `${this.buildDirectory}/tsconfig.json`);
+    fs.copyFileSync(this.packageJson, `${this.publishDirectory}/package.json`);
+    fs.copyFileSync(this.readme, `${this.publishDirectory}/README.md`);
+    fs.copyFileSync(this.license, `${this.publishDirectory}/LICENSE`);
     fsextra.copySync(this.staticGlobalDirectory, this.buildDirectory);
   }
 
