@@ -2,7 +2,7 @@
   "name": "@dotbase/hl7-v2-message",
   "description": "Parses HL7 v2.x messages into typed javascript objects and makes them easily accessable.",
   "version": "1.0.0",
-  "main": "build/index.ts",
+  "main": "index.js",
   "author": "dot.base <movebase@charite.de> (https://movebase.de)",
   "homepage": "https://github.com/dot-base/hl7-v2-message",
   "repository": {
@@ -14,14 +14,13 @@
     "url": "https://github.com/dot-base/hl7-v2-message/issues"
   },
   "keywords": [
-    "Hl7",
-    "v2.x",
-    "v2",
-    "Health",
-    "Level",
-    "Seven",
-    "FHIR",
-    "Parser",
-    "Types"
+	"Hl7",
+	"v2.x",
+	"Hl7v2",
+	"Health Level Seven",
+	"FHIR",
+	"parser",
+	"types",
+	"typescript"
   ]
 }
