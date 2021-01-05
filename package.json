@@ -19,7 +19,7 @@
     "lint-without-fix": "eslint 'src/**' --ext .ts",
     "prettier": "prettier --write 'src/**/*'",
     "development": "NODE_ENV=development node -r tsconfig-paths/register -r ts-node/register src/build.ts",
-    "build": "node -r tsconfig-paths/register -r ts-node/register src/build.ts"
+	"build": "node -r tsconfig-paths/register -r ts-node/register src/build.ts && tsc -p build -d"
   },
   "dependencies": {},
   "devDependencies": {
