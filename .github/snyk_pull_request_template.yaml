@@ -1,0 +1,1 @@
+title: "fix: [Snyk] security upgrade {{ package_name }} from {{ package_from }} to {{ package_to }}"
