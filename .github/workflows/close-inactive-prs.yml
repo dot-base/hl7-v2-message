@@ -1,0 +1,8 @@
+name: Close inactive PRs
+on:
+  schedule:
+    - cron: "30 2 * * *"
+
+jobs:
+  close-prs:
+    uses: dot-base/automations/.github/workflows/close-inactive-prs.yml@main
