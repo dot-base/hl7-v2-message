@@ -1,4 +1,9 @@
 # hl7-v2-message
+
+> **Deprecated:** This repository is no longer maintained and will be archived.
+> No dotbase service uses `@dotbase/hl7-v2-message`. The last code change was in May 2022.
+> The npm package stays available at version 1.0.1, but it gets no further updates.
+
 Parses HL7 v2.x messages into typed javascript objects and makes them easily accessable.
 
 ## Installation
